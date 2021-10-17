@@ -1,1 +1,1 @@
-# yahoo-finance-feeder
+# finance-feeder
