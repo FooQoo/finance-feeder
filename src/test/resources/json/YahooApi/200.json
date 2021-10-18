@@ -1,0 +1,131 @@
+{
+  "chart": {
+    "result": [
+      {
+        "meta": {
+          "currency": "JPY",
+          "symbol": "7647.T",
+          "exchangeName": "JPX",
+          "instrumentType": "EQUITY",
+          "firstTradeDate": 959731200,
+          "regularMarketTime": 1634278501,
+          "gmtoffset": 32400,
+          "timezone": "JST",
+          "exchangeTimezoneName": "Asia/Tokyo",
+          "regularMarketPrice": 26.0,
+          "chartPreviousClose": 27.0,
+          "priceHint": 2,
+          "currentTradingPeriod": {
+            "pre": {
+              "timezone": "JST",
+              "start": 1634256000,
+              "end": 1634256000,
+              "gmtoffset": 32400
+            },
+            "regular": {
+              "timezone": "JST",
+              "start": 1634256000,
+              "end": 1634277600,
+              "gmtoffset": 32400
+            },
+            "post": {
+              "timezone": "JST",
+              "start": 1634277600,
+              "end": 1634277600,
+              "gmtoffset": 32400
+            }
+          },
+          "dataGranularity": "1d",
+          "range": "7d",
+          "validRanges": [
+            "1d",
+            "5d",
+            "1mo",
+            "3mo",
+            "6mo",
+            "1y",
+            "2y",
+            "5y",
+            "10y",
+            "ytd",
+            "max"
+          ]
+        },
+        "timestamp": [
+          1633564800,
+          1633651200,
+          1633910400,
+          1633996800,
+          1634083200,
+          1634169600,
+          1634256000
+        ],
+        "indicators": {
+          "quote": [
+            {
+              "high": [
+                27.0,
+                27.0,
+                27.0,
+                27.0,
+                27.0,
+                27.0,
+                27.0
+              ],
+              "volume": [
+                86179100,
+                103497900,
+                95350100,
+                112458000,
+                104500800,
+                116283800,
+                96019800
+              ],
+              "open": [
+                26.0,
+                26.0,
+                26.0,
+                26.0,
+                27.0,
+                26.0,
+                26.0
+              ],
+              "low": [
+                25.0,
+                25.0,
+                26.0,
+                26.0,
+                26.0,
+                26.0,
+                26.0
+              ],
+              "close": [
+                27.0,
+                27.0,
+                26.0,
+                26.0,
+                27.0,
+                26.0,
+                26.0
+              ]
+            }
+          ],
+          "adjclose": [
+            {
+              "adjclose": [
+                27.0,
+                27.0,
+                26.0,
+                26.0,
+                27.0,
+                26.0,
+                26.0
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "error": null
+  }
+}
