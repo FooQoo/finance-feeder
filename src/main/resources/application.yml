@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: finance-feeder
+  profiles:
+    group:
+      local:
+        - yf
+        - local
+
+setting:
+  feed:
+    range: 7d
+    interval: 1d
