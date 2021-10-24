@@ -10,7 +10,6 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,9 +30,8 @@ class Result implements Serializable {
     private Indicators indicators;
 
     StockPrice toStockPrice() {
-        final var historyDates = HistoryDates.from(timestamps);
-        final var stockPriceIndexList = indicators.toStockPriceIndexList(
-                CollectionUtils.size(timestamps));
+        final var historyDates = HistoryDates.fromIntList(timestamps);
+        final var stockPriceIndexList = indicators.toStockPriceIndexList();
 
         return StockPrice.of(meta.getSecurityCode(), stockPriceIndexList, historyDates);
     }

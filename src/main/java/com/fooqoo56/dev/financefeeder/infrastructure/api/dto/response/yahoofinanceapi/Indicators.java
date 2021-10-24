@@ -27,12 +27,15 @@ class Indicators implements Serializable {
     @JsonProperty("adjclose")
     private List<AdjClose> adjCloses;
 
-    List<StockPriceIndex> toStockPriceIndexList(final Integer range) {
+    List<StockPriceIndex> toStockPriceIndexList() {
         final var quote = quotes.stream().findFirst().orElseThrow();
         final var adjClose = adjCloses.stream().findFirst().orElseThrow();
 
+        // quoteのサイズ基準にListを作成する
+        final var quoteSize = quote.size();
+
         return IntStream
-                .range(0, range - 1)
+                .range(0, quoteSize - 1)
                 .mapToObj(index -> StockPriceIndex.of(
                         quote.getHigh(index),
                         quote.getLow(index),
