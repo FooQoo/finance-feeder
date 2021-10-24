@@ -1,10 +1,11 @@
 package com.fooqoo56.dev.financefeeder.domain.model.feed;
 
 import com.fooqoo56.dev.financefeeder.domain.model.type.Day;
-import com.fooqoo56.dev.financefeeder.exception.InvalidTypeParamException;
+import com.fooqoo56.dev.financefeeder.exception.domain.model.InvalidTypeParamException;
 import java.io.Serializable;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 
@@ -13,6 +14,7 @@ import org.springframework.lang.NonNull;
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode
+@Getter
 public class FeedPeriod implements Serializable {
 
     private static final long serialVersionUID = -8108870646694944541L;
@@ -50,13 +52,5 @@ public class FeedPeriod implements Serializable {
         }
 
         return new FeedPeriod(range, interval);
-    }
-
-    public String getRangeParam() {
-        return range.toString();
-    }
-
-    public String getIntervalParam() {
-        return interval.toString();
     }
 }
