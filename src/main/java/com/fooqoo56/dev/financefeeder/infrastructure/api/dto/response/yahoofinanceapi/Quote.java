@@ -7,13 +7,12 @@ import java.math.BigDecimal;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Getter
 @EqualsAndHashCode
 class Quote implements Serializable {
 
@@ -33,6 +32,10 @@ class Quote implements Serializable {
 
     @JsonProperty("close")
     private List<BigDecimal> closes;
+
+    int size() {
+        return CollectionUtils.size(highs);
+    }
 
     BigDecimal getHigh(final Integer index) {
         return highs.get(index);

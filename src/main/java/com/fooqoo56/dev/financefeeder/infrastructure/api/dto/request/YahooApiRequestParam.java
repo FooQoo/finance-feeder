@@ -48,8 +48,8 @@ public class YahooApiRequestParam implements Serializable {
     public static YahooApiRequestParam of(final SecurityCode securityCode,
                                           final FeedPeriod feedPeriod) {
         return YahooApiRequestParam.builder()
-                .range(feedPeriod.getRangeParam())
-                .interval(feedPeriod.getIntervalParam())
+                .range(feedPeriod.getRange().toString())
+                .interval(feedPeriod.getInterval().toString())
                 .symbol(securityCode.getTokyoStockExchangeCode())
                 .build();
     }
@@ -62,7 +62,7 @@ public class YahooApiRequestParam implements Serializable {
      */
     public URI getURI(final UriBuilder uriBuilder) {
         return uriBuilder
-                .path("/{}")
+                .path("/{symbol}")
                 .queryParam("range", "{range}")
                 .queryParam("interval", "{interval}")
                 .queryParam("includePrePost", "{includePrePost}")
