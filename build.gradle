@@ -72,7 +72,7 @@ dependencies {
     )
 
     // google cloud function for test
-    invoker 'com.google.cloud.functions.invoker:java-function-invoker:1.0.0-alpha-2-rc5'
+    invoker 'com.google.cloud.functions.invoker:java-function-invoker:1.0.3'
 
     testImplementation(
             // spring boot test framework
