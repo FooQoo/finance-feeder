@@ -1,6 +1,6 @@
 package com.fooqoo56.dev.financefeeder.domain.model.type;
 
-import com.fooqoo56.dev.financefeeder.exception.InvalidTypeParamException;
+import com.fooqoo56.dev.financefeeder.exception.domain.model.InvalidTypeParamException;
 import java.io.Serializable;
 import java.util.regex.Pattern;
 import lombok.AccessLevel;
@@ -19,7 +19,7 @@ public class Day implements Serializable {
     private static final long serialVersionUID = 6579075660024980025L;
 
     private static final Pattern DAY_PATTERN =
-            Pattern.compile("^([1-9][0-9])*d$");
+            Pattern.compile("^([1-9][0-9]*)d$");
 
     @NonNull
     private final Integer value;

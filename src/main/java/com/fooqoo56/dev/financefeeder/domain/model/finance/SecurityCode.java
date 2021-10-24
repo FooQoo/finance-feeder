@@ -1,6 +1,6 @@
 package com.fooqoo56.dev.financefeeder.domain.model.finance;
 
-import com.fooqoo56.dev.financefeeder.exception.InvalidTypeParamException;
+import com.fooqoo56.dev.financefeeder.exception.domain.model.InvalidTypeParamException;
 import java.io.Serializable;
 import java.util.regex.Pattern;
 import lombok.AccessLevel;
@@ -38,7 +38,7 @@ public class SecurityCode implements Serializable {
             return new SecurityCode(value);
         }
 
-        throw new InvalidTypeParamException("4桁の自然数ではありません。");
+        throw new InvalidTypeParamException("4桁の自然数ではありません。" + value);
     }
 
     /**
@@ -57,6 +57,10 @@ public class SecurityCode implements Serializable {
         }
 
         throw new InvalidTypeParamException("東京証券取引所のコードではありません。");
+    }
+
+    public String getCode() {
+        return value;
     }
 
     /**

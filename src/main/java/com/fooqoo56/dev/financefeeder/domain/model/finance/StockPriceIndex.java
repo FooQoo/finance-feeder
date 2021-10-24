@@ -1,7 +1,7 @@
 package com.fooqoo56.dev.financefeeder.domain.model.finance;
 
-import com.fooqoo56.dev.financefeeder.domain.model.type.Count;
-import com.fooqoo56.dev.financefeeder.domain.model.type.PositiveBigDecimal;
+import com.fooqoo56.dev.financefeeder.domain.model.type.premitive.UnsignedBigDecimal;
+import com.fooqoo56.dev.financefeeder.domain.model.type.premitive.UnsignedInteger;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import lombok.AccessLevel;
@@ -24,50 +24,90 @@ public class StockPriceIndex implements Serializable {
      * 高値.
      */
     @NonNull
-    private final PositiveBigDecimal high;
+    private final UnsignedBigDecimal high;
 
     /**
      * 安値.
      */
     @NonNull
-    private final PositiveBigDecimal low;
+    private final UnsignedBigDecimal low;
 
     /**
      * 初値.
      */
     @NonNull
-    private final PositiveBigDecimal open;
+    private final UnsignedBigDecimal open;
 
     /**
      * 終値.
      */
     @NonNull
-    private final PositiveBigDecimal close;
+    private final UnsignedBigDecimal close;
 
     /**
      * 調整済み終値.
      */
     @NonNull
-    private final PositiveBigDecimal adjClose;
+    private final UnsignedBigDecimal adjClose;
 
     /**
      * 出来高.
      */
     @NonNull
-    private final Count volume;
+    private final UnsignedInteger volume;
 
+    /**
+     * ファクトリメソッド.
+     *
+     * @param high     高値
+     * @param low      安値
+     * @param open     初値
+     * @param close    終値
+     * @param adjClose 調整済み終値
+     * @param volume   出来高
+     * @return StockPriceIndexのインスタンス
+     */
     public static StockPriceIndex of(final BigDecimal high,
                                      final BigDecimal low, final BigDecimal open,
                                      final BigDecimal close, final BigDecimal adjClose,
                                      final Integer volume) {
         return StockPriceIndex.builder()
-                .high(PositiveBigDecimal.from(high))
-                .low(PositiveBigDecimal.from(low))
-                .open(PositiveBigDecimal.from(open))
-                .close(PositiveBigDecimal.from(close))
-                .adjClose(PositiveBigDecimal.from(adjClose))
-                .volume(Count.from(volume))
+                .high(UnsignedBigDecimal.from(high))
+                .low(UnsignedBigDecimal.from(low))
+                .open(UnsignedBigDecimal.from(open))
+                .close(UnsignedBigDecimal.from(close))
+                .adjClose(UnsignedBigDecimal.from(adjClose))
+                .volume(UnsignedInteger.from(volume))
                 .build();
     }
 
+    @NonNull
+    public double getHighPrice() {
+        return high.toDouble();
+    }
+
+    @NonNull
+    public double getLowPrice() {
+        return low.toDouble();
+    }
+
+    @NonNull
+    public double getOpenPrice() {
+        return open.toDouble();
+    }
+
+    @NonNull
+    public double getClosePrice() {
+        return close.toDouble();
+    }
+
+    @NonNull
+    public double getAdjClosePrice() {
+        return adjClose.toDouble();
+    }
+
+    @NonNull
+    public int getVolumeNumber() {
+        return volume.toInt();
+    }
 }

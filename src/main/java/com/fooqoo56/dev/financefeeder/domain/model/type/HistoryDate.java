@@ -1,6 +1,6 @@
 package com.fooqoo56.dev.financefeeder.domain.model.type;
 
-import com.fooqoo56.dev.financefeeder.exception.InvalidTypeParamException;
+import com.fooqoo56.dev.financefeeder.exception.domain.model.InvalidTypeParamException;
 import com.google.cloud.Timestamp;
 import java.io.Serializable;
 import java.time.Instant;
@@ -22,6 +22,9 @@ import org.springframework.lang.NonNull;
 public class HistoryDate implements Serializable {
 
     private static final long serialVersionUID = 8470844445987935576L;
+
+    private static final DateTimeFormatter DATE_TIME_FORMATTER =
+            DateTimeFormatter.ofPattern("uuuu-MM-dd");
 
     private static final ZoneId JAPAN_ZONE_ID = ZoneId.of("Japan");
 
@@ -61,16 +64,6 @@ public class HistoryDate implements Serializable {
     }
 
     /**
-     * LocalDateTime型に変換する.
-     *
-     * @return LocalDateTime
-     */
-    @NonNull
-    public LocalDateTime convertToLocalDate() {
-        return value;
-    }
-
-    /**
      * Timestamp型に変換する.
      *
      * @return Timestamp
@@ -78,5 +71,15 @@ public class HistoryDate implements Serializable {
     @NonNull
     public Timestamp convertToTimestamp() {
         return Timestamp.of(Date.from(value.atZone(JAPAN_ZONE_ID).toInstant()));
+    }
+
+    /**
+     * 文字列として返す.
+     *
+     * @return uuuu-MM-dd
+     */
+    @NonNull
+    public String toStringFormat() {
+        return value.format(DATE_TIME_FORMATTER);
     }
 }
