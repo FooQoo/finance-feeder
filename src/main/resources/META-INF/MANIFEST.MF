@@ -1,0 +1,1 @@
+Main-Class: com.fooqoo56.dev.financefeeder.FinanceFeederApplication

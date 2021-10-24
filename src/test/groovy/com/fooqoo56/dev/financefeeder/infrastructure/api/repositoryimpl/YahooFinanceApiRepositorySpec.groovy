@@ -2,10 +2,9 @@ package com.fooqoo56.dev.financefeeder.infrastructure.api.repositoryimpl
 
 import com.fooqoo56.dev.financefeeder.domain.model.feed.FeedPeriod
 import com.fooqoo56.dev.financefeeder.domain.model.finance.SecurityCode
-import com.fooqoo56.dev.financefeeder.domain.model.type.Count
 import com.fooqoo56.dev.financefeeder.domain.model.type.Day
 import com.fooqoo56.dev.financefeeder.domain.model.type.HistoryDate
-import com.fooqoo56.dev.financefeeder.domain.model.type.PositiveBigDecimal
+import com.fooqoo56.dev.financefeeder.domain.model.type.premitive.UnsignedBigDecimal
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.springframework.http.HttpHeaders
@@ -52,7 +51,7 @@ class YahooFinanceApiRepositorySpec extends Specification {
 
         then:
         // セキュリティコードが一致している
-        actual.securityCode == new SecurityCode("7647")
+        actual.securityCodeString == "7647"
 
         // 日付ごとの株価指標を取り出す
         final stockPriceIndexMap = actual.stockPriceIndices.stockPriceIndexMap
@@ -62,12 +61,12 @@ class YahooFinanceApiRepositorySpec extends Specification {
                 LocalDateTime.of(2021, 10, 7, 9, 0))
 
         verifyAll(stockPriceIndexMap.get(historyDate1)) {
-            high == new PositiveBigDecimal(new BigDecimal("27.0"))
-            open == new PositiveBigDecimal(new BigDecimal("26.0"))
-            low == new PositiveBigDecimal(new BigDecimal("25.0"))
-            close == new PositiveBigDecimal(new BigDecimal("27.0"))
-            adjClose == new PositiveBigDecimal(new BigDecimal("27.0"))
-            volume == new Count(86179100)
+            high == new UnsignedBigDecimal(new BigDecimal("27.0"))
+            open == new UnsignedBigDecimal(new BigDecimal("26.0"))
+            low == new UnsignedBigDecimal(new BigDecimal("25.0"))
+            close == new UnsignedBigDecimal(new BigDecimal("27.0"))
+            adjClose == new UnsignedBigDecimal(new BigDecimal("27.0"))
+            volumeNumber == 86179100
         }
     }
 

@@ -5,7 +5,12 @@ spring:
     group:
       local:
         - yf
-        - local
+        - local-firestore
+      stg:
+        - yf
+        - stg-firestore
+    include:
+      stg
 
 setting:
   feed:

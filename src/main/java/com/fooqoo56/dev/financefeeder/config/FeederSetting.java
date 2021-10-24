@@ -23,6 +23,11 @@ public class FeederSetting implements Serializable {
     //@Pattern(regexp = "^([1-9][0-9])*d$")
     private final String interval;
 
+    /**
+     * フィード期間を取得する.
+     *
+     * @return フィード期間のインスタンス
+     */
     public FeedPeriod toFeedPeriod() {
         return FeedPeriod.of(Day.from(range), Day.from(interval));
     }

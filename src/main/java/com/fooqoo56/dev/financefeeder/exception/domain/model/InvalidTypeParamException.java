@@ -1,4 +1,6 @@
-package com.fooqoo56.dev.financefeeder.exception;
+package com.fooqoo56.dev.financefeeder.exception.domain.model;
+
+import com.fooqoo56.dev.financefeeder.exception.FinanceFeederException;
 
 /**
  * 値オブジェクトの引数が不正な場合の例外.

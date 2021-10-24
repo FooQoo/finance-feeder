@@ -166,7 +166,7 @@ import com.github.jengelman.gradle.plugins.shadow.transformers.PropertiesFileTra
 shadowJar {
     mergeServiceFiles()
     manifest {
-        attributes 'Main-Class': 'covid.fukui.rss.articlefeeder.ArticleFeederApplication'
+        attributes 'Main-Class': 'com.fooqoo56.dev.financefeeder.FinanceFeederApplication'
     }
     append 'META-INF/spring.handlers'
     append 'META-INF/spring.schemas'

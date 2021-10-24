@@ -2,4 +2,4 @@ spring:
   cloud:
     gcp:
       firestore:
-        enabled: false
+        project-id: ${PROJECT_ID}

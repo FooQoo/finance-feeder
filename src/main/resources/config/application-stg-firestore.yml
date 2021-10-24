@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    gcp:
+      firestore:
+        project-id: ${PROJECT_ID}
+        credentials:
+          location: classpath:service_account_stg.json

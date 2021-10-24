@@ -1,7 +1,7 @@
 package com.fooqoo56.dev.financefeeder.domain.model.feed
 
 import com.fooqoo56.dev.financefeeder.domain.model.type.Day
-import com.fooqoo56.dev.financefeeder.exception.InvalidTypeParamException
+import com.fooqoo56.dev.financefeeder.exception.domain.model.InvalidTypeParamException
 import spock.lang.Specification
 import spock.lang.Unroll
 
