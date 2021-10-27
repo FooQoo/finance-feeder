@@ -44,7 +44,7 @@ dependencies {
             // webflux
             'org.springframework.boot:spring-boot-starter-webflux',
             // google cloud function for spring boot
-            'org.springframework.cloud:spring-cloud-function-adapter-gcp:3.1.2',
+            'org.springframework.cloud:spring-cloud-function-adapter-gcp:3.1.5',
             // commons-lang3
             'org.apache.commons:commons-lang3:3.11',
             // collections4
