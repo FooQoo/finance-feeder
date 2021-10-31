@@ -1,0 +1,18 @@
+spring:
+  cloud:
+    gcp:
+      firestore:
+        enabled: false
+
+setting:
+  feed:
+    range: 7d
+    interval: 1d
+
+extension:
+  api:
+    yahoo-finance:
+      base-domain: query1.finance.yahoo.com
+      base-path: /v8/finance/chart/
+      connect-timeout: 1000ms
+      read-timeout: 1000ms

@@ -31,7 +31,9 @@ public class StockPriceIndicesDto implements Serializable {
 
         final var historyDates = stockPrice.getHistoryDates();
 
-        final var stockPriceCollectionDtoStream = historyDates.toStream()
+        final var stockPriceCollectionDtoStream = historyDates
+                .asList()
+                .stream()
                 .map(historyDate -> StockPriceIndexDto.of(historyDate,
                         stockPrice.getStockPriceIndex(historyDate)))
                 .collect(Collectors.toUnmodifiableList());

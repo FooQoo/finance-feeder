@@ -3,7 +3,7 @@ package com.fooqoo56.dev.financefeeder.infrastructure.db.repositoryimpl;
 import com.fooqoo56.dev.financefeeder.domain.model.feed.FeedResult;
 import com.fooqoo56.dev.financefeeder.domain.model.finance.StockPrice;
 import com.fooqoo56.dev.financefeeder.domain.repository.SaveStockPriceRepository;
-import com.fooqoo56.dev.financefeeder.exception.infrastructure.FailedSaveStockPriceException;
+import com.fooqoo56.dev.financefeeder.exception.infrastructure.repository.FailedSaveStockPriceException;
 import com.fooqoo56.dev.financefeeder.infrastructure.db.dto.StockPriceCollectionDto;
 import com.fooqoo56.dev.financefeeder.infrastructure.db.dto.StockPriceIndexDto;
 import com.fooqoo56.dev.financefeeder.infrastructure.db.dto.StockPriceIndicesDto;
@@ -26,7 +26,7 @@ public class FirestoreRepository implements SaveStockPriceRepository {
     @Override
     public Mono<FeedResult> saveStockPrice(
             final StockPrice stockPrice) {
-        
+
         final var stockPriceCollectionDto =
                 StockPriceCollectionDto.from(stockPrice.getSecurityCode());
 

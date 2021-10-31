@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.springframework.lang.NonNull;
 
 /**
@@ -15,6 +16,7 @@ import org.springframework.lang.NonNull;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode
 @Getter
+@ToString
 public class FeedPeriod implements Serializable {
 
     private static final long serialVersionUID = -8108870646694944541L;

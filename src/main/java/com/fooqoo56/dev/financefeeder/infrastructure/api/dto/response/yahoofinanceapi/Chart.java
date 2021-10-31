@@ -21,8 +21,7 @@ class Chart implements Serializable {
     private List<Result> results;
 
     StockPrice toStockPrice() {
-        final var result = results.stream().findFirst().orElseThrow();
-
-        return result.toStockPrice();
+        // resultsの先頭を取得する
+        return results.stream().map(Result::toStockPrice).findFirst().orElseThrow();
     }
 }

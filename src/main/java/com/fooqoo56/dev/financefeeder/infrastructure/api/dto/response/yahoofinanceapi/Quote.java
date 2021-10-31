@@ -8,12 +8,14 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.apache.commons.collections4.CollectionUtils;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EqualsAndHashCode
+@ToString
 class Quote implements Serializable {
 
     private static final long serialVersionUID = 7665077379662869079L;

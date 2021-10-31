@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.springframework.lang.NonNull;
 
 /**
@@ -13,6 +14,7 @@ import org.springframework.lang.NonNull;
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode
+@ToString
 public class SecurityCode implements Serializable {
 
     private static final long serialVersionUID = -2414828022527010973L;

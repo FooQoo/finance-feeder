@@ -11,8 +11,17 @@ spring:
         - stg-firestore
     include:
       stg
+  messages:
+    encoding: UTF-8
+  web:
+    locale: jp
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+      WRITE_ENUMS_USING_TO_STRING: true
+
 
 setting:
   feed:
-    range: 7d
+    range: 1d
     interval: 1d
