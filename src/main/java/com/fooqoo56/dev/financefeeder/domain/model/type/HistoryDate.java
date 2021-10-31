@@ -1,17 +1,16 @@
 package com.fooqoo56.dev.financefeeder.domain.model.type;
 
-import com.fooqoo56.dev.financefeeder.exception.domain.model.InvalidTypeParamException;
 import com.google.cloud.Timestamp;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Date;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.springframework.lang.NonNull;
 
 /**
@@ -19,6 +18,7 @@ import org.springframework.lang.NonNull;
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode
+@ToString
 public class HistoryDate implements Serializable {
 
     private static final long serialVersionUID = 8470844445987935576L;
@@ -29,26 +29,6 @@ public class HistoryDate implements Serializable {
     private static final ZoneId JAPAN_ZONE_ID = ZoneId.of("Japan");
 
     private final LocalDateTime value;
-
-    /**
-     * Stringから型インスタンスを生成するファクトリメソッド.
-     *
-     * @param value String
-     * @return DateTimeの型インスタンス
-     */
-    @NonNull
-    public static HistoryDate from(final String value) {
-        try {
-            return new HistoryDate(
-                    LocalDateTime.parse(value, DateTimeFormatter.RFC_1123_DATE_TIME));
-        } catch (final DateTimeParseException dateTimeParseException) {
-            throw new InvalidTypeParamException("文字列がRFC1123の日付フォーマットに準拠していません。",
-                    dateTimeParseException);
-        } catch (final NullPointerException nullPointerException) {
-            throw new InvalidTypeParamException("文字列がnullです。",
-                    nullPointerException);
-        }
-    }
 
     /**
      * Stringから型インスタンスを生成するファクトリメソッド.

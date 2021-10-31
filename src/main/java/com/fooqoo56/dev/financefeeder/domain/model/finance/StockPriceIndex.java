@@ -67,10 +67,12 @@ public class StockPriceIndex implements Serializable {
      * @param volume   出来高
      * @return StockPriceIndexのインスタンス
      */
+    @Builder(builderMethodName = "builderOf", builderClassName = "build")
     public static StockPriceIndex of(final BigDecimal high,
                                      final BigDecimal low, final BigDecimal open,
                                      final BigDecimal close, final BigDecimal adjClose,
                                      final Integer volume) {
+
         return StockPriceIndex.builder()
                 .high(UnsignedBigDecimal.from(high))
                 .low(UnsignedBigDecimal.from(low))

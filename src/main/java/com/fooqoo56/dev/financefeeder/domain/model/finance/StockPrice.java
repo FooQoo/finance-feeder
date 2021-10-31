@@ -3,11 +3,13 @@ package com.fooqoo56.dev.financefeeder.domain.model.finance;
 import com.fooqoo56.dev.financefeeder.domain.model.type.HistoryDate;
 import com.fooqoo56.dev.financefeeder.domain.model.type.HistoryDates;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Map;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 
 /**
@@ -15,6 +17,8 @@ import org.springframework.lang.NonNull;
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode
+@ToString
+@Slf4j
 public class StockPrice implements Serializable {
 
     private static final long serialVersionUID = 4512465547529313124L;
@@ -27,12 +31,9 @@ public class StockPrice implements Serializable {
     private final StockPriceIndices stockPriceIndices;
 
     public static StockPrice of(final SecurityCode securityCode,
-                                final List<StockPriceIndex> stockPriceIndexList,
-                                final HistoryDates historyDates) {
+                                final Map<HistoryDate, StockPriceIndex> stockPriceIndices) {
 
-        final var stockPriceIndices = StockPriceIndices.from(stockPriceIndexList, historyDates);
-
-        return new StockPrice(securityCode, stockPriceIndices);
+        return new StockPrice(securityCode, StockPriceIndices.from(stockPriceIndices));
     }
 
     @NonNull

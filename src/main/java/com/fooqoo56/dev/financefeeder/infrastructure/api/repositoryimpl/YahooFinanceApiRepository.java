@@ -4,7 +4,7 @@ import com.fooqoo56.dev.financefeeder.domain.model.feed.FeedPeriod;
 import com.fooqoo56.dev.financefeeder.domain.model.finance.SecurityCode;
 import com.fooqoo56.dev.financefeeder.domain.model.finance.StockPrice;
 import com.fooqoo56.dev.financefeeder.domain.repository.FetchStockPriceRepository;
-import com.fooqoo56.dev.financefeeder.exception.infrastructure.FailedFetchStockPriceException;
+import com.fooqoo56.dev.financefeeder.exception.infrastructure.repository.FailedFetchStockPriceException;
 import com.fooqoo56.dev.financefeeder.infrastructure.api.dto.request.YahooApiRequestParam;
 import com.fooqoo56.dev.financefeeder.infrastructure.api.dto.response.yahoofinanceapi.YahooApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +34,6 @@ public class YahooFinanceApiRepository implements FetchStockPriceRepository {
                 .uri(yahooApiRequestParam::getURI)
                 .retrieve()
                 .bodyToMono(YahooApiResponse.class)
-                .log()
                 .onErrorResume(exception -> Mono.error(
                         new FailedFetchStockPriceException("株価の取得に失敗しました:", exception)));
 

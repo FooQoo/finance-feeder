@@ -23,9 +23,9 @@ public class UnsignedInteger implements Serializable {
      */
     public static UnsignedInteger from(final Integer value) {
 
-        final var isUnsigned = value >= 0;
+        final var isNotUnsigned = value < 0;
 
-        if (isUnsigned) {
+        if (isNotUnsigned) {
             throw new InvalidTypeParamException("負の数です。");
         }
 
