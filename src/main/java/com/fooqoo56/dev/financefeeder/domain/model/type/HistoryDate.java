@@ -28,6 +28,7 @@ public class HistoryDate implements Serializable {
 
     private static final ZoneId JAPAN_ZONE_ID = ZoneId.of("Japan");
 
+    @NonNull
     private final LocalDateTime value;
 
     /**

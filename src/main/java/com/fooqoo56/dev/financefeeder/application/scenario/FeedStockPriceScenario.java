@@ -38,5 +38,4 @@ public class FeedStockPriceScenario {
         // 4. 株価結果のログ出力
         feedResult.logFeedResult();
     }
-
 }

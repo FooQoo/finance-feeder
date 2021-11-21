@@ -2,11 +2,13 @@ package com.fooqoo56.dev.financefeeder.infrastructure.api.dto.request;
 
 import com.fooqoo56.dev.financefeeder.domain.model.feed.FeedPeriod;
 import com.fooqoo56.dev.financefeeder.domain.model.finance.SecurityCode;
+import com.fooqoo56.dev.financefeeder.infrastructure.api.utils.UriParamBuilder;
 import java.io.Serializable;
 import java.net.URI;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.NonNull;
 import org.springframework.web.util.UriBuilder;
 
 /**
@@ -20,22 +22,37 @@ public class YahooApiRequestParam implements Serializable {
 
     private static final long serialVersionUID = -3054477990107435428L;
 
+    @NonNull
     private final String symbol;
 
+    @NonNull
     private final String range;
 
+    @NonNull
     private final String interval;
 
+    @NonNull
+    @Builder.Default
     private final Boolean includePrePost = true;
 
+    @NonNull
+    @Builder.Default
     private final String events = "div|split|earn";
 
+    @NonNull
+    @Builder.Default
     private final String lang = "en-US";
 
+    @NonNull
+    @Builder.Default
     private final String region = "US";
 
+    @NonNull
+    @Builder.Default
     private final String crumb = "t5QZMhgytYZ";
 
+    @NonNull
+    @Builder.Default
     private final String corsDomain = "finance.yahoo.com";
 
     /**
@@ -57,19 +74,21 @@ public class YahooApiRequestParam implements Serializable {
     /**
      * URIの取得.
      *
-     * @param uriBuilder URIBuilder
+     * @param uriBuilder uriBuilder
      * @return URI
      */
     public URI getURI(final UriBuilder uriBuilder) {
-        return uriBuilder
-                .path("/{symbol}")
-                .queryParam("range", "{range}")
-                .queryParam("interval", "{interval}")
-                .queryParam("includePrePost", "{includePrePost}")
-                .queryParam("events", "{events}")
-                .queryParam("region", "{region}")
-                .queryParam("crumb", "{crumb}")
-                .queryParam("corsDomain", "{corsDomain}")
-                .build(symbol, range, interval, includePrePost, events, region, crumb, corsDomain);
+
+        return UriParamBuilder.builder()
+                .addPathParam(symbol)
+                .addQueryParam("range", range)
+                .addQueryParam("interval", interval)
+                .addQueryParam("includePrePost", includePrePost)
+                .addQueryParam("events", events)
+                .addQueryParam("lang", lang)
+                .addQueryParam("region", region)
+                .addQueryParam("crumb", crumb)
+                .addQueryParam("corsDomain", corsDomain)
+                .build(uriBuilder);
     }
 }
