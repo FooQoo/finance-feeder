@@ -1,7 +1,13 @@
 extension:
   api:
-    yahoo-finance:
+    yahoo-finance-chart:
       base-domain: query1.finance.yahoo.com
       base-path: /v8/finance/chart/
+      connect-timeout: 1000ms
+      read-timeout: 1000ms
+    # https://query1.finance.yahoo.com/v11/finance/quoteSummary/7647.T?modules=defaultKeyStatistics,financialData
+    yahoo-finance-static:
+      base-domain: query1.finance.yahoo.com
+      base-path: /v7/finance/options/
       connect-timeout: 1000ms
       read-timeout: 1000ms

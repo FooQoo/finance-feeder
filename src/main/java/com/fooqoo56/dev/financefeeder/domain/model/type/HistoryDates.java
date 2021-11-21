@@ -19,6 +19,7 @@ public class HistoryDates implements Serializable {
 
     private static final long serialVersionUID = 8470844445987935576L;
 
+    @NonNull
     private final List<HistoryDate> value;
 
     @NonNull
