@@ -1,10 +1,14 @@
 package com.fooqoo56.dev.financefeeder.domain.model.finance;
 
+import com.fooqoo56.dev.financefeeder.domain.model.finance.index.DailyIndex;
+import com.fooqoo56.dev.financefeeder.domain.model.finance.index.StockPriceIndex;
 import com.fooqoo56.dev.financefeeder.domain.model.type.HistoryDate;
-import com.fooqoo56.dev.financefeeder.domain.model.type.HistoryDates;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -28,26 +32,38 @@ public class StockPrice implements Serializable {
     private final SecurityCode securityCode;
 
     @NonNull
-    private final StockPriceIndices stockPriceIndices;
+    private final Map<HistoryDate, StockPriceIndex> dailyIndexMap;
 
+    @Builder(builderClassName = "Factory")
     public static StockPrice of(final SecurityCode securityCode,
-                                final Map<HistoryDate, StockPriceIndex> stockPriceIndices) {
+                                final List<DailyIndex> dailyIndices) {
 
-        return new StockPrice(securityCode, StockPriceIndices.from(stockPriceIndices));
+        // 日付で集約する
+        final var dailyIndicesMap = dailyIndices.stream()
+                .collect(Collectors.groupingBy(DailyIndex::getHistoryDate,
+                        Collectors.collectingAndThen(
+                                Collectors.toList(),
+                                // リストの先頭を取得する
+                                StockPrice::getFirstStockPriceIndex)));
+
+        return new StockPrice(securityCode, dailyIndicesMap);
     }
 
     @NonNull
-    public String getSecurityCodeString() {
-        return securityCode.getCode();
+    private static StockPriceIndex getFirstStockPriceIndex(final List<DailyIndex> indices) {
+        return indices.stream().findFirst().orElseThrow().getStockPriceIndex();
     }
 
+    /**
+     * 日付ごとの指標データをリストにして返却する
+     *
+     * @return DailyIndexのリストs
+     */
     @NonNull
-    public HistoryDates getHistoryDates() {
-        return stockPriceIndices.getHistoryDates();
+    public List<DailyIndex> toDailyIndex() {
+        return dailyIndexMap.entrySet().stream().map(dailyStockIndex -> DailyIndex.builder()
+                .stockPriceIndex(dailyStockIndex.getValue())
+                .historyDate(dailyStockIndex.getKey())
+                .build()).collect(Collectors.toUnmodifiableList());
     }
-
-    public StockPriceIndex getStockPriceIndex(final HistoryDate historyDate) {
-        return stockPriceIndices.getStockPriceIndex(historyDate);
-    }
-
 }

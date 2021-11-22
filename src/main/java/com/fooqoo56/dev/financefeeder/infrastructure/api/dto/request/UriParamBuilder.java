@@ -1,4 +1,4 @@
-package com.fooqoo56.dev.financefeeder.infrastructure.api.utils;
+package com.fooqoo56.dev.financefeeder.infrastructure.api.dto.request;
 
 import java.net.URI;
 import java.util.ArrayList;

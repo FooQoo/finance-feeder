@@ -1,43 +1,47 @@
-package com.fooqoo56.dev.financefeeder.infrastructure.api.dto.response.yahoofinanceapi;
+package com.fooqoo56.dev.financefeeder.infrastructure.api.dto.response.yahoo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.lang.NonNull;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EqualsAndHashCode
 @ToString
+@Builder
 class Quote implements Serializable {
 
     private static final long serialVersionUID = 7665077379662869079L;
 
     @JsonProperty("high")
-    private List<BigDecimal> highs;
+    @NonNull
+    private final List<BigDecimal> highs;
 
     @JsonProperty("volume")
-    private List<Integer> volumes;
+    @NonNull
+    private final List<Integer> volumes;
 
     @JsonProperty("open")
-    private List<BigDecimal> opens;
+    @NonNull
+    private final List<BigDecimal> opens;
 
     @JsonProperty("low")
-    private List<BigDecimal> lows;
+    @NonNull
+    private final List<BigDecimal> lows;
 
     @JsonProperty("close")
-    private List<BigDecimal> closes;
-
-    int size() {
-        return CollectionUtils.size(highs);
-    }
+    @NonNull
+    private final List<BigDecimal> closes;
 
     BigDecimal getHigh(final Integer index) {
         return highs.get(index);

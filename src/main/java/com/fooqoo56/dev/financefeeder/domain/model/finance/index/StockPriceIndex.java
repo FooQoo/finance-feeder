@@ -1,4 +1,4 @@
-package com.fooqoo56.dev.financefeeder.domain.model.finance;
+package com.fooqoo56.dev.financefeeder.domain.model.finance.index;
 
 import com.fooqoo56.dev.financefeeder.domain.model.type.premitive.UnsignedBigDecimal;
 import com.fooqoo56.dev.financefeeder.domain.model.type.premitive.UnsignedInteger;

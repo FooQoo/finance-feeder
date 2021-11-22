@@ -1,8 +1,8 @@
-package com.fooqoo56.dev.financefeeder.infrastructure.api.dto.request;
+package com.fooqoo56.dev.financefeeder.infrastructure.api.dto.request.yahoo;
 
 import com.fooqoo56.dev.financefeeder.domain.model.feed.FeedPeriod;
 import com.fooqoo56.dev.financefeeder.domain.model.finance.SecurityCode;
-import com.fooqoo56.dev.financefeeder.infrastructure.api.utils.UriParamBuilder;
+import com.fooqoo56.dev.financefeeder.infrastructure.api.dto.request.UriParamBuilder;
 import java.io.Serializable;
 import java.net.URI;
 import lombok.AccessLevel;

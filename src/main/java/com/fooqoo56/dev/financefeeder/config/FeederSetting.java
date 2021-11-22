@@ -7,10 +7,12 @@ import javax.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
+import org.springframework.validation.annotation.Validated;
 
 /**
  * フィード設定.
  */
+@Validated
 @ConfigurationProperties(prefix = "setting.feed")
 @ConstructorBinding
 @RequiredArgsConstructor
@@ -18,10 +20,10 @@ public class FeederSetting implements Serializable {
 
     private static final long serialVersionUID = -8108870646694944541L;
 
-    @Pattern(regexp = "^([1-9][0-9])*d$")
+    @Pattern(regexp = "^([1-9]|[1-2][0-9]|30)d$")
     private final String range;
 
-    @Pattern(regexp = "^([1-9][0-9])*d$")
+    @Pattern(regexp = "^([1-9]|[1-2][0-9]|30)d$")
     private final String interval;
 
     /**
