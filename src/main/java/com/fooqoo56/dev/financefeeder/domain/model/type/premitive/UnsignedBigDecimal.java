@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.NonNull;
 
 /**
  * 正の数.
@@ -16,6 +17,7 @@ public class UnsignedBigDecimal implements Serializable {
 
     private static final long serialVersionUID = -4849516410513489668L;
 
+    @NonNull
     private final BigDecimal value;
 
     /**

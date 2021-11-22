@@ -1,10 +1,11 @@
-package com.fooqoo56.dev.financefeeder.infrastructure.api.repositoryimpl
+package com.fooqoo56.dev.financefeeder.infrastructure.api.repositoryimpl.yahoo
 
 import com.fooqoo56.dev.financefeeder.domain.model.feed.FeedPeriod
 import com.fooqoo56.dev.financefeeder.domain.model.finance.SecurityCode
 import com.fooqoo56.dev.financefeeder.domain.model.type.Day
-import com.fooqoo56.dev.financefeeder.domain.model.type.HistoryDate
-import com.fooqoo56.dev.financefeeder.domain.model.type.premitive.UnsignedBigDecimal
+import com.fooqoo56.dev.financefeeder.infrastructure.api.dto.request.yahoo.YahooApiRequestParam
+import com.fooqoo56.dev.financefeeder.infrastructure.api.dto.response.yahoo.AdjClose
+import com.fooqoo56.dev.financefeeder.infrastructure.api.dto.response.yahoo.Quote
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.springframework.http.HttpHeaders
@@ -13,8 +14,6 @@ import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.client.WebClient
 import spock.lang.Specification
 import spock.lang.Unroll
-
-import java.time.LocalDateTime
 
 class YahooFinanceApiRepositorySpec extends Specification {
 
@@ -45,43 +44,31 @@ class YahooFinanceApiRepositorySpec extends Specification {
                         .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                         .setBody(mockResponse))
 
+        final yahooApiRequestParam = YahooApiRequestParam.of(securityCode, feedPeriod)
+
         when:
-        final actual = sut.fetchStockPrice(securityCode, feedPeriod).block()
+        final actual = sut.getChart(yahooApiRequestParam).block()
 
         then:
-        // セキュリティコードが一致している
-        actual.securityCodeString == "7647"
-
-        // 日付ごとの株価指標を取り出す
-        final stockPriceIndexMap = actual.stockPriceIndices.stockPriceIndexMap
-
-        println(stockPriceIndexMap)
-
-        // 2021年10月22日09時00分00秒の指標データの比較
-        final historyDate1 = new HistoryDate(
-                LocalDateTime.of(2021, 10, 22, 9, 0, 0))
-
-        verifyAll(stockPriceIndexMap.get(historyDate1)) {
-            high == new UnsignedBigDecimal(new BigDecimal("26.0"))
-            open == new UnsignedBigDecimal(new BigDecimal("25.0"))
-            low == new UnsignedBigDecimal(new BigDecimal("25.0"))
-            close == new UnsignedBigDecimal(new BigDecimal("25.0"))
-            adjClose == new UnsignedBigDecimal(new BigDecimal("25.0"))
-            volumeNumber == 93017800
+        final result = actual.chart.results[0]
+        final indicators = result.indicators
+        verifyAll {
+            // 証券コードが一致している
+            result.meta.symbol == "7647.T"
+            // タイムスタンプが一致している
+            result.timestamps == [1634860800, 1634883301]
+            // quoteが一致してる
+            indicators.quotes[0] == Quote.builder()
+                    .closes([new BigDecimal("25.0"), new BigDecimal("25.0")])
+                    .highs([new BigDecimal("26.0"), new BigDecimal("26.0")])
+                    .opens([new BigDecimal("25.0"), new BigDecimal("25.0")])
+                    .volumes([93017800, 93017800])
+                    .lows([new BigDecimal("25.0"), new BigDecimal("25.0")])
+                    .build()
+            // adjClosesが一致している
+            indicators.adjCloses[0] == new AdjClose([new BigDecimal("25.0"), new BigDecimal("25.0")])
         }
 
-        // 2021年10月22日15時15分01秒の指標データの比較
-        final historyDate2 = new HistoryDate(
-                LocalDateTime.of(2021, 10, 22, 15, 15, 1))
-
-        verifyAll(stockPriceIndexMap.get(historyDate2)) {
-            high == new UnsignedBigDecimal(new BigDecimal("26.0"))
-            open == new UnsignedBigDecimal(new BigDecimal("25.0"))
-            low == new UnsignedBigDecimal(new BigDecimal("25.0"))
-            close == new UnsignedBigDecimal(new BigDecimal("25.0"))
-            adjClose == new UnsignedBigDecimal(new BigDecimal("25.0"))
-            volumeNumber == 93017800
-        }
 
         where:
         securityCode             | feedPeriod                                         || expectedJson

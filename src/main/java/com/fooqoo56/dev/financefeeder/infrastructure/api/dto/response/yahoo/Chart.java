@@ -1,24 +1,31 @@
-package com.fooqoo56.dev.financefeeder.infrastructure.api.dto.response.yahoofinanceapi;
+package com.fooqoo56.dev.financefeeder.infrastructure.api.dto.response.yahoo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fooqoo56.dev.financefeeder.domain.model.finance.StockPrice;
 import java.io.Serializable;
 import java.util.List;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+import org.springframework.lang.NonNull;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EqualsAndHashCode
+@Getter
+@ToString
 class Chart implements Serializable {
 
     private static final long serialVersionUID = 149510784494652354L;
 
     @JsonProperty("result")
-    private List<Result> results;
+    @NonNull
+    private final List<Result> results;
 
     StockPrice toStockPrice() {
         // resultsの先頭を取得する

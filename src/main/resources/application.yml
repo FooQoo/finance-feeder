@@ -20,7 +20,6 @@ spring:
       FAIL_ON_EMPTY_BEANS: false
       WRITE_ENUMS_USING_TO_STRING: true
 
-
 setting:
   feed:
     range: 1d

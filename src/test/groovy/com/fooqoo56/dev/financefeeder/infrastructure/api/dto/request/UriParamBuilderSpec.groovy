@@ -1,7 +1,7 @@
-package com.fooqoo56.dev.financefeeder.infrastructure.api.util
+package com.fooqoo56.dev.financefeeder.infrastructure.api.dto.request
 
 
-import com.fooqoo56.dev.financefeeder.infrastructure.api.utils.UriParamBuilder
+import com.fooqoo56.dev.financefeeder.infrastructure.api.dto.request.UriParamBuilder
 import org.springframework.web.util.UriComponentsBuilder
 import spock.lang.Specification
 import spock.lang.Unroll

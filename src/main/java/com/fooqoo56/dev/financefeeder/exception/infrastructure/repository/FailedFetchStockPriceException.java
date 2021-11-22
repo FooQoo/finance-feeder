@@ -9,7 +9,9 @@ public class FailedFetchStockPriceException extends FinanceFeederException {
 
     private static final long serialVersionUID = 8207167350057325986L;
 
+    private static final String PREFIX = "[株価取得処理]";
+
     public FailedFetchStockPriceException(final String message, final Throwable exception) {
-        super(message, exception);
+        super(PREFIX + message, exception);
     }
 }

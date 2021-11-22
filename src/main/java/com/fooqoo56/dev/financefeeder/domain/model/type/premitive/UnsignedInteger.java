@@ -4,6 +4,7 @@ import com.fooqoo56.dev.financefeeder.exception.domain.model.InvalidTypeParamExc
 import java.io.Serializable;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.NonNull;
 
 /**
  * 符号なし整数.
@@ -13,6 +14,7 @@ public class UnsignedInteger implements Serializable {
 
     private static final long serialVersionUID = 6756823578285765615L;
 
+    @NonNull
     private final Integer value;
 
     /**

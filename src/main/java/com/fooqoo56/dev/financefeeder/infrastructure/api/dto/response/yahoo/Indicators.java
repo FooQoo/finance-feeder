@@ -1,22 +1,26 @@
-package com.fooqoo56.dev.financefeeder.infrastructure.api.dto.response.yahoofinanceapi;
+package com.fooqoo56.dev.financefeeder.infrastructure.api.dto.response.yahoo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fooqoo56.dev.financefeeder.domain.model.finance.StockPriceIndex;
+import com.fooqoo56.dev.financefeeder.domain.model.finance.index.StockPriceIndex;
 import com.fooqoo56.dev.financefeeder.exception.infrastructure.dto.EmptyArrayException;
 import java.io.Serializable;
 import java.util.List;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.lang.NonNull;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
+@ToString
 @EqualsAndHashCode
 @Slf4j
 class Indicators implements Serializable {
@@ -26,10 +30,12 @@ class Indicators implements Serializable {
     private static final int ZERO_INDEX = 0;
 
     @JsonProperty("quote")
-    private List<Quote> quotes;
+    @NonNull
+    private final List<Quote> quotes;
 
     @JsonProperty("adjclose")
-    private List<AdjClose> adjCloses;
+    @NonNull
+    private final List<AdjClose> adjCloses;
 
     /**
      * StockPriceIndexに変換する.

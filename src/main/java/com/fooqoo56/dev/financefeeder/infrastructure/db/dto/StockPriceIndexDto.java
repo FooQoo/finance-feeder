@@ -1,7 +1,6 @@
 package com.fooqoo56.dev.financefeeder.infrastructure.db.dto;
 
-import com.fooqoo56.dev.financefeeder.domain.model.finance.StockPriceIndex;
-import com.fooqoo56.dev.financefeeder.domain.model.type.HistoryDate;
+import com.fooqoo56.dev.financefeeder.domain.model.finance.index.DailyIndex;
 import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.annotation.DocumentId;
 import java.io.Serializable;
@@ -47,8 +46,10 @@ public class StockPriceIndexDto implements Serializable {
     @NonNull
     private final Integer volume;
 
-    static StockPriceIndexDto of(final HistoryDate historyDate,
-                                 final StockPriceIndex stockPriceIndex) {
+    static StockPriceIndexDto from(final DailyIndex dailyIndex) {
+
+        final var historyDate = dailyIndex.getHistoryDate();
+        final var stockPriceIndex = dailyIndex.getStockPriceIndex();
 
         return StockPriceIndexDto.builder()
                 .key(historyDate.toStringFormat())

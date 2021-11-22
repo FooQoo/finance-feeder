@@ -17,7 +17,7 @@ import reactor.core.publisher.Flux;
  * StockPriceCollectionのDtoクラス.
  */
 @Document(collectionName = "stock-price")
-@RequiredArgsConstructor(access = AccessLevel.PUBLIC)
+@RequiredArgsConstructor(staticName = "from")
 @Builder(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode
 public class StockPriceIndicesDto implements Serializable {
@@ -29,16 +29,12 @@ public class StockPriceIndicesDto implements Serializable {
 
     public static StockPriceIndicesDto from(final StockPrice stockPrice) {
 
-        final var historyDates = stockPrice.getHistoryDates();
+        final var stockPriceIndexDtoList =
+                stockPrice.toDailyIndex().stream()
+                        .map(StockPriceIndexDto::from)
+                        .collect(Collectors.toUnmodifiableList());
 
-        final var stockPriceCollectionDtoStream = historyDates
-                .asList()
-                .stream()
-                .map(historyDate -> StockPriceIndexDto.of(historyDate,
-                        stockPrice.getStockPriceIndex(historyDate)))
-                .collect(Collectors.toUnmodifiableList());
-
-        return new StockPriceIndicesDto(stockPriceCollectionDtoStream);
+        return new StockPriceIndicesDto(stockPriceIndexDtoList);
     }
 
     public Flux<StockPriceIndexDto> asFlux() {

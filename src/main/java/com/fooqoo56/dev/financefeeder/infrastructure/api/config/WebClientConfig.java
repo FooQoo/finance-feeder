@@ -6,30 +6,25 @@ import java.time.Duration;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
-import org.springframework.lang.NonNull;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
+import reactor.netty.resources.LoopResources;
 
 /**
- * WebClientの設定クラス.
+ * WebFluxの設定クラス
  */
-@Configuration
 @Slf4j
 public class WebClientConfig {
 
     /**
      * connector.
      */
-    private static final BiFunction<Integer, Duration, ReactorClientHttpConnector> CONNECTOR =
+    public static final BiFunction<Integer, Duration, ReactorClientHttpConnector> CONNECTOR =
             (connectTimeout, readTimeout) -> new ReactorClientHttpConnector(HttpClient.create()
+                    .runOn(LoopResources.create("reactor-webclient"))
                     .responseTimeout(readTimeout)
                     .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, connectTimeout)
                     .resolver(DefaultAddressResolverGroup.INSTANCE)
@@ -39,7 +34,7 @@ public class WebClientConfig {
     /**
      * リクエスト情報出力用.
      */
-    private static final ExchangeFilterFunction WEBCLIENT_REQUEST_LOGGER = ExchangeFilterFunction
+    public static final ExchangeFilterFunction WEBCLIENT_REQUEST_LOGGER = ExchangeFilterFunction
             .ofRequestProcessor(
                     clientRequest -> {
                         log.info("{}[{}] {}",
@@ -73,7 +68,7 @@ public class WebClientConfig {
     /**
      * レスポンス情報出力用.
      */
-    private static final ExchangeFilterFunction WEBCLIENT_RESPONSE_LOGGER = ExchangeFilterFunction
+    public static final ExchangeFilterFunction WEBCLIENT_RESPONSE_LOGGER = ExchangeFilterFunction
             .ofResponseProcessor(
                     clientResponse -> {
                         log.info("{}[{}] {}",
@@ -82,38 +77,4 @@ public class WebClientConfig {
                         return Mono.just(clientResponse);
                     }
             );
-
-    /**
-     * YahooFinanceの取得エンドポイント.
-     *
-     * @return api設定値
-     */
-    @Bean
-    @ConfigurationProperties(prefix = "extension.api.yahoo-finance")
-    public ApiSetting yahooFinanceSetting() {
-        return new ApiSetting();
-    }
-
-    /**
-     * YahooFinanceのクライアント.
-     *
-     * @param apiSetting API設定
-     * @return WebClient
-     */
-    @Bean
-    @NonNull
-    public WebClient yahooFinanceApiClient(
-            @Qualifier(value = "yahooFinanceSetting") final ApiSetting apiSetting) {
-
-        final var connector = CONNECTOR
-                .apply(apiSetting.getConnectTimeoutMillsPart(), apiSetting.getReadTimeout());
-
-        return WebClient.builder()
-                .baseUrl(apiSetting.baseUrl())
-                .filter(WEBCLIENT_REQUEST_LOGGER)
-                .filter(WEBCLIENT_RESPONSE_LOGGER)
-                .clientConnector(connector)
-                .build();
-    }
-
 }

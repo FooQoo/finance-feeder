@@ -1,5 +1,6 @@
 package com.fooqoo56.dev.financefeeder.domain.model.finance;
 
+import com.fooqoo56.dev.financefeeder.domain.model.finance.index.StockPriceIndex;
 import com.fooqoo56.dev.financefeeder.domain.model.type.HistoryDate;
 import com.fooqoo56.dev.financefeeder.domain.model.type.HistoryDates;
 import java.io.Serializable;
