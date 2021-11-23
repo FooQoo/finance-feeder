@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono;
  *
  * @param <T> 型
  */
-@RequiredArgsConstructor
+@RequiredArgsConstructor(staticName = "from")
 public class MonoHandler<T> {
 
     private final Mono<T> mono;
@@ -24,7 +24,7 @@ public class MonoHandler<T> {
         final var object = mono.block();
 
         if (Objects.isNull(object)) {
-            throw new FailedBlockMonoException("Monoのblokeに失敗しました。");
+            throw new FailedBlockMonoException("blokingに失敗しました。");
         }
 
         return object;

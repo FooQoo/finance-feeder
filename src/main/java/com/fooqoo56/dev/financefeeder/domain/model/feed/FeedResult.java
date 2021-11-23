@@ -35,4 +35,9 @@ public class FeedResult implements Serializable {
     public void logFeedResult() {
         log.info("保存された件数:" + numSavedCode.toInt());
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(numSavedCode.toInt());
+    }
 }

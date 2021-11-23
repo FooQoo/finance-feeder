@@ -1,0 +1,6 @@
+spring:
+  cloud:
+    gcp:
+      project-id: ${PROJECT_ID}
+      credentials:
+        location: classpath:service_account_stg.json

@@ -5,12 +5,13 @@ spring:
     group:
       local:
         - yf
-        - local-firestore
+        - local-gcp
       stg:
         - yf
-        - stg-firestore
-    include:
-      stg
+        - stg-gcp
+      dark:
+        - yf
+        - dark-gcp
   messages:
     encoding: UTF-8
   web:

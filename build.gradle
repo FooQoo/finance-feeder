@@ -5,7 +5,8 @@ buildscript {
         }
     }
     dependencies {
-        classpath "gradle.plugin.com.github.jengelman.gradle.plugins:shadow:7.0.0"
+        // Spring Boot Gradle Plugin を使用
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.4.2'
     }
 }
 
@@ -16,9 +17,10 @@ plugins {
     id 'groovy'
     id 'com.github.spotbugs' version '4.7.10'
     id 'jacoco'
+    id "com.google.cloud.tools.jib" version "3.1.4"
 }
 
-apply plugin: 'com.github.johnrengelman.shadow'
+jib.container.creationTime = 'USE_CURRENT_TIMESTAMP'
 
 compileJava.options.encoding = "UTF-8"
 compileTestJava.options.encoding = "UTF-8"
@@ -43,24 +45,22 @@ dependencies {
     implementation(
             // webflux
             'org.springframework.boot:spring-boot-starter-webflux',
-            // google cloud function for spring boot
-            'org.springframework.cloud:spring-cloud-function-adapter-gcp:3.1.5',
             // commons-lang3
             'org.apache.commons:commons-lang3:3.12.0',
             // collections4
             'org.apache.commons:commons-collections4:4.4',
             // com.squareup.okhttp3
             "com.squareup.okhttp3:okhttp:4.9.3",
-            // google cloud function for test
-            'com.google.cloud.functions:functions-framework-api:1.0.4',
             // spring-cloud-gcp-starter-logging
             'org.springframework.cloud:spring-cloud-gcp-starter-logging:+',
             // firestore
             'org.springframework.cloud:spring-cloud-gcp-starter-data-firestore:+',
-            // xml
-            'javax.xml.bind:jaxb-api:2.3.1',
             // validation
-            'org.springframework.boot:spring-boot-starter-validation'
+            'org.springframework.boot:spring-boot-starter-validation',
+            // google cloud function for spring boot
+            'org.springframework.cloud:spring-cloud-function-adapter-gcp:3.1.5',
+            // google cloud function for test
+            'com.google.cloud.functions:functions-framework-api:1.0.4'
     )
 
     compileOnly 'org.projectlombok:lombok'
@@ -156,23 +156,5 @@ jacocoTestReport {
                     ]
             )
         }))
-    }
-}
-
-import com.github.jengelman.gradle.plugins.shadow.transformers.PropertiesFileTransformer
-
-// fat jarを作成する
-// https://github.com/spring-projects/spring-boot/issues/1828
-shadowJar {
-    mergeServiceFiles()
-    manifest {
-        attributes 'Main-Class': 'com.fooqoo56.dev.financefeeder.FinanceFeederApplication'
-    }
-    append 'META-INF/spring.handlers'
-    append 'META-INF/spring.schemas'
-    append 'META-INF/spring.tooling'
-    transform(PropertiesFileTransformer) {
-        paths = ['META-INF/spring.factories']
-        mergeStrategy = "append"
     }
 }

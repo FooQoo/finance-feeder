@@ -1,6 +1,7 @@
 package com.fooqoo56.dev.financefeeder.infrastructure.db.repositoryimpl.firestore;
 
 import com.fooqoo56.dev.financefeeder.exception.infrastructure.repository.FailedSaveStockPriceException;
+import com.fooqoo56.dev.financefeeder.infrastructure.db.dto.StockPriceDto;
 import com.fooqoo56.dev.financefeeder.infrastructure.db.dto.StockPriceIndexDto;
 import com.fooqoo56.dev.financefeeder.infrastructure.db.dto.StockPriceIndicesDto;
 import java.util.List;
@@ -22,14 +23,15 @@ public class FirestoreRepository {
     /**
      * firestoreにデータ保存する
      *
-     * @param stockPriceIndicesDto firestoreに保存するデータ
+     * @param stockPriceIndicesDto 証券コードに対応する指標データ
+     * @param stockPriceDto        証券コード
      * @return 保存後のデータ
      */
     public Mono<List<StockPriceIndexDto>> saveAll(
-            final StockPriceIndicesDto stockPriceIndicesDto) {
+            final StockPriceIndicesDto stockPriceIndicesDto, final StockPriceDto stockPriceDto) {
 
         final FirestoreReactiveOperations stockPriceTemplate =
-                firestoreTemplate.withParent(stockPriceIndicesDto);
+                firestoreTemplate.withParent(stockPriceDto);
 
         return stockPriceTemplate
                 .saveAll(stockPriceIndicesDto.asFlux())
