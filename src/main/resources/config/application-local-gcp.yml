@@ -4,9 +4,3 @@ spring:
       project-id: ${PROJECT_ID}
       credentials:
         location: classpath:service_account_stg.json
-    function:
-      definition: consumer
-    stream:
-      bindings:
-        consumer-in-0: # {受信関数のBean登録名}-in-{連番}
-          destination: feedStock # トピック名

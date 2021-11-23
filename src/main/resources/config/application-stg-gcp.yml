@@ -1,4 +1,4 @@
 spring:
   cloud:
     gcp:
-      project-id: covid19-fukui-stg
+      project-id: ${PROJECT_ID}
