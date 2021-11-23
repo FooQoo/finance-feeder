@@ -9,6 +9,9 @@ spring:
       stg:
         - yf
         - stg-gcp
+      dark:
+        - yf
+        - dark-gcp
   messages:
     encoding: UTF-8
   web:
