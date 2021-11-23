@@ -9,7 +9,7 @@ spring:
       stg:
         - yf
         - stg-gcp
-    include: local
+    include: stg
   messages:
     encoding: UTF-8
   web:
