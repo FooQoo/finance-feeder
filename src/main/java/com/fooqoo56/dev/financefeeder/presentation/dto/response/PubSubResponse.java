@@ -3,9 +3,11 @@ package com.fooqoo56.dev.financefeeder.presentation.dto.response;
 import java.io.Serializable;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 @RequiredArgsConstructor
 @Getter
+@ToString
 public class PubSubResponse implements Serializable {
 
     private static final long serialVersionUID = -3864080138750594368L;
