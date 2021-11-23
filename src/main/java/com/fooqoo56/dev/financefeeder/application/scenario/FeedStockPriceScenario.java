@@ -3,6 +3,7 @@ package com.fooqoo56.dev.financefeeder.application.scenario;
 import com.fooqoo56.dev.financefeeder.application.service.FetchStockPriceService;
 import com.fooqoo56.dev.financefeeder.application.service.SaveStockPriceService;
 import com.fooqoo56.dev.financefeeder.domain.model.asynchronous.MonoHandler;
+import com.fooqoo56.dev.financefeeder.domain.model.feed.FeedResult;
 import com.fooqoo56.dev.financefeeder.domain.model.finance.SecurityCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -23,19 +24,20 @@ public class FeedStockPriceScenario {
      *
      * @param securityCode 証券コード
      */
-    public void feedStockPrice(final SecurityCode securityCode) {
+    public FeedResult feedStockPrice(final SecurityCode securityCode) {
         // 1. 株価の取得
-        final var stockPriceMono = fetchStockPrice.fetchStockPrice(securityCode);
+        final var stockPriceMono = fetchStockPrice.fetchStockPrice(securityCode).log();
 
         // 2. 株価の保存
         final var feedResultMono = stockPriceMono
                 .flatMap(saveStockPrice::saveStockPrice);
 
         // 3. 非同期処理のブロック
-        final var monoHandler = new MonoHandler<>(feedResultMono);
-        final var feedResult = monoHandler.block();
+        final var feedResult = MonoHandler.from(feedResultMono).block();
 
         // 4. 株価結果のログ出力
         feedResult.logFeedResult();
+
+        return feedResult;
     }
 }
