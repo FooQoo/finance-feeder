@@ -5,10 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.lang.NonNull;
 
 @RequiredArgsConstructor
@@ -23,7 +25,11 @@ class AdjClose implements Serializable {
     @NonNull
     private final List<BigDecimal> adjCloses;
 
-    BigDecimal getAdjCloses(final Integer index) {
-        return adjCloses.get(index);
+    int length() {
+        return CollectionUtils.size(adjCloses);
+    }
+
+    Optional<BigDecimal> getAdjCloses(final Integer index) {
+        return Optional.ofNullable(adjCloses.get(index));
     }
 }

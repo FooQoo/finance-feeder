@@ -19,12 +19,11 @@ public class PubSubController {
 
     @PostMapping(value = "/feedStock")
     public Mono<PubSubResponse> receiveMessage(@RequestBody final PubSubBody body) {
-        final var message = body.getMessage();
 
-        log.info("更新開始:" + message);
+        log.info("更新開始:" + body.toStringMessage());
 
         // メッセージから証券コードを取得する
-        final var securityCode = message.getMessageData().getSecurityCode();
+        final var securityCode = body.getSecurityCode();
 
         // シナリオを実行し、フィード結果を受け取る
         final var feedResultMono = feedStockPriceScenario.feedStockPrice(securityCode);

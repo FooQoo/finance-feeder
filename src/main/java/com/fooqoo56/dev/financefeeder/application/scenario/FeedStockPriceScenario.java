@@ -26,7 +26,7 @@ public class FeedStockPriceScenario {
      */
     public Mono<FeedResult> feedStockPrice(final SecurityCode securityCode) {
         // 1. 株価の取得
-        final var stockPriceMono = fetchStockPrice.fetchStockPrice(securityCode).log();
+        final var stockPriceMono = fetchStockPrice.fetchStockPrice(securityCode);
 
         // 2. 株価の保存
         final var feedResultMono = stockPriceMono

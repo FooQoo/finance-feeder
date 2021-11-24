@@ -3,9 +3,11 @@ package com.fooqoo56.dev.financefeeder.infrastructure.api.dto.response.yahoo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fooqoo56.dev.financefeeder.domain.model.finance.index.StockPriceIndex;
-import com.fooqoo56.dev.financefeeder.exception.infrastructure.dto.EmptyArrayException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -29,40 +31,73 @@ class Indicators implements Serializable {
 
     private static final int ZERO_INDEX = 0;
 
+    /**
+     * 先頭インデックスのみ利用
+     */
     @JsonProperty("quote")
     @NonNull
     private final List<Quote> quotes;
 
+    /**
+     * 先頭インデックスのみ利用
+     */
     @JsonProperty("adjclose")
     @NonNull
     private final List<AdjClose> adjCloses;
 
     /**
-     * StockPriceIndexに変換する.
+     * StockPriceIndexのリストに変換する
      *
-     * @param index インデックス
-     * @return StockPriceIndex
+     * @return StockPriceIndex、quotesと
      */
-    StockPriceIndex toStockPriceIndex(final int index) {
+    List<StockPriceIndex> toStockPriceIndexList() {
 
         if (CollectionUtils.isEmpty(quotes)) {
-            throw new EmptyArrayException("quotesが空です。");
+            log.warn("quotesが空です。");
+            return List.of();
         }
 
         if (CollectionUtils.isEmpty(adjCloses)) {
-            throw new EmptyArrayException("adjcloseが空です。");
+            log.warn("adjcloseが空です。");
+            return List.of();
         }
 
         final var quote = quotes.get(ZERO_INDEX);
         final var adjClose = adjCloses.get(ZERO_INDEX);
 
-        return StockPriceIndex.builderOf()
-                .high(quote.getHigh(index))
-                .low(quote.getLow(index))
-                .open(quote.getOpen(index))
-                .close(quote.getClose(index))
-                .adjClose(adjClose.getAdjCloses(index))
-                .volume(quote.getVolume(index))
-                .build();
+        if (quote.length() != adjClose.length()) {
+            log.warn("quotesとadjcloseの長さが一致しません。");
+            return List.of();
+        }
+
+        final var sizeQuote = quote.length();
+
+        return IntStream.range(0, sizeQuote)
+                .mapToObj(index -> {
+
+                    final var high = quote.getHigh(index);
+                    final var low = quote.getLow(index);
+                    final var open = quote.getOpen(index);
+                    final var close = quote.getClose(index);
+                    final var adjCloseValue = adjClose.getAdjCloses(index);
+                    final var volume = quote.getVolume(index);
+
+                    if (!(high.isPresent() && low.isPresent() && open.isPresent() &&
+                            close.isPresent() &&
+                            adjCloseValue.isPresent() && volume.isPresent())) {
+                        return Optional.empty();
+                    }
+                    return Optional.of(StockPriceIndex.builderOf()
+                            .high(high.get())
+                            .low(low.get())
+                            .open(open.get())
+                            .close(close.get())
+                            .adjClose(adjCloseValue.get())
+                            .volume(volume.get())
+                            .build());
+                })
+                .filter(Optional::isPresent)
+                .map(stockPriceIndex -> (StockPriceIndex) stockPriceIndex.get())
+                .collect(Collectors.toUnmodifiableList());
     }
 }

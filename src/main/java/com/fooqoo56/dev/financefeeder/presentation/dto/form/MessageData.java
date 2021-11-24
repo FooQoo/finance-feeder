@@ -17,11 +17,11 @@ import org.springframework.lang.NonNull;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @ToString
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
-public class MessageData implements Serializable {
+class MessageData implements Serializable {
 
     private static final long serialVersionUID = 9142369108979094892L;
 
-    @JsonProperty("code")
+    @JsonProperty
     @NonNull
     private final String code;
 
@@ -31,7 +31,7 @@ public class MessageData implements Serializable {
      *
      * @return SecurityCodeインスタンス
      */
-    public SecurityCode getSecurityCode() {
+    SecurityCode toSecurityCode() {
         return SecurityCode.from(code);
     }
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fooqoo56.dev.financefeeder.domain.model.finance.StockPrice;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -27,8 +28,10 @@ class Chart implements Serializable {
     @NonNull
     private final List<Result> results;
 
-    StockPrice toStockPrice() {
+    Optional<StockPrice> toStockPrice() {
         // resultsの先頭を取得する
-        return results.stream().map(Result::toStockPrice).findFirst().orElseThrow();
+        return results.stream()
+                .map(Result::toStockPrice)
+                .findFirst();
     }
 }

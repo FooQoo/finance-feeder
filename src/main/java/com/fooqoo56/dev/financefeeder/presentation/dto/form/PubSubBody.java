@@ -1,19 +1,46 @@
 package com.fooqoo56.dev.financefeeder.presentation.dto.form;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fooqoo56.dev.financefeeder.domain.model.finance.SecurityCode;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.springframework.lang.NonNull;
 
+/**
+ * PubSubから受信するメッセージ
+ */
 @RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @ToString
-@Getter
 public class PubSubBody {
 
+    /**
+     * message
+     */
+    @NonNull
+    @JsonProperty
     private final PubSubMessage message;
+
+    /**
+     * 証券コード
+     *
+     * @return 証券コード
+     */
+    public SecurityCode getSecurityCode() {
+        return message.getSecurityCode();
+    }
+
+    /**
+     * メッセージの内容を文字列化する
+     *
+     * @return メッセージの文字列化
+     */
+    public String toStringMessage() {
+        return message.toString();
+    }
 }
 

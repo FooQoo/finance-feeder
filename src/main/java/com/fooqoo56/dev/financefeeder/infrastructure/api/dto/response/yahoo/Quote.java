@@ -5,12 +5,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.lang.NonNull;
 
 @RequiredArgsConstructor
@@ -43,23 +46,67 @@ class Quote implements Serializable {
     @NonNull
     private final List<BigDecimal> closes;
 
-    BigDecimal getHigh(final Integer index) {
-        return highs.get(index);
+    int length() {
+        final var sizeOfHighs = CollectionUtils.size(highs);
+        final var sizeOfLows = CollectionUtils.size(lows);
+        final var sizeOfVolumes = CollectionUtils.size(volumes);
+        final var sizeOfOpens = CollectionUtils.size(opens);
+        final var sizeOfCloses = CollectionUtils.size(closes);
+
+        final var equalAllList = Stream.of(sizeOfLows, sizeOfVolumes, sizeOfOpens, sizeOfCloses)
+                .allMatch(i -> i == sizeOfHighs);
+
+        // 全ての配列の長さが一致する場合、highsの長さを代表して返す。それ以外の場合は0を返す
+        return equalAllList ? sizeOfHighs : 0;
     }
 
-    BigDecimal getOpen(final Integer index) {
-        return opens.get(index);
+    Optional<BigDecimal> getHigh(final Integer index) {
+
+        // 長さが0の場合、Optional.emptyを返す
+        if (length() <= 0) {
+            return Optional.empty();
+        }
+
+        return Optional.ofNullable(highs.get(index));
     }
 
-    BigDecimal getLow(final Integer index) {
-        return lows.get(index);
+    Optional<BigDecimal> getOpen(final Integer index) {
+
+        // 長さが0の場合、Optional.emptyを返す
+        if (length() <= 0) {
+            return Optional.empty();
+        }
+
+        return Optional.ofNullable(opens.get(index));
     }
 
-    BigDecimal getClose(final Integer index) {
-        return closes.get(index);
+    Optional<BigDecimal> getLow(final Integer index) {
+
+        // 長さが0の場合、Optional.emptyを返す
+        if (length() <= 0) {
+            return Optional.empty();
+        }
+
+        return Optional.ofNullable(lows.get(index));
     }
 
-    Integer getVolume(final Integer index) {
-        return volumes.get(index);
+    Optional<BigDecimal> getClose(final Integer index) {
+
+        // 長さが0の場合、Optional.emptyを返す
+        if (length() <= 0) {
+            return Optional.empty();
+        }
+
+        return Optional.ofNullable(closes.get(index));
+    }
+
+    Optional<Integer> getVolume(final Integer index) {
+
+        // 長さが0の場合、Optional.emptyを返す
+        if (length() <= 0) {
+            return Optional.empty();
+        }
+
+        return Optional.ofNullable(volumes.get(index));
     }
 }

@@ -27,6 +27,8 @@ public class FetchStockPriceRepositoryImpl implements FetchStockPriceRepository 
 
         return yahooFinanceApiRepository.getChart(
                         YahooApiRequestParam.of(securityCode, feedPeriod))
-                .map(YahooApiResponse::toStockPrice);
+                .map(YahooApiResponse::toStockPrice)
+                // stockPriceがOptional.emptyの場合、株価指標を空にしてインスタンス生成する
+                .map(stockPrice -> stockPrice.orElse(StockPrice.emptyIndex(securityCode)));
     }
 }

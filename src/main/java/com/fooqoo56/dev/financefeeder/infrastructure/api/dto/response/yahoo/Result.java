@@ -15,6 +15,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.lang.NonNull;
 
@@ -24,6 +25,7 @@ import org.springframework.lang.NonNull;
 @Getter
 @ToString
 @EqualsAndHashCode
+@Slf4j
 class Result implements Serializable {
 
     private static final long serialVersionUID = 1841671527691933050L;
@@ -43,24 +45,31 @@ class Result implements Serializable {
     StockPrice toStockPrice() {
         final var sizeOfTimestamp = CollectionUtils.size(timestamps);
 
+        final var stockPriceIndexList = indicators.toStockPriceIndexList();
+
+        if (sizeOfTimestamp != CollectionUtils.size(stockPriceIndexList)) {
+            log.warn("タイムスタンプ配列と株価指標リストの長さが一致しません。");
+            // 空のリストを渡す
+            return StockPrice.emptyIndex(meta.getSecurityCode());
+        }
+
         final var dailyIndices = IntStream
                 .range(0, sizeOfTimestamp)
-                .mapToObj(this::buildDailyIndex)
+                .mapToObj(index -> {
+
+                    final var historyDate = HistoryDate.from(timestamps.get(index));
+                    final var stockPriceIndex = stockPriceIndexList.get(index);
+
+                    return DailyIndex.builder()
+                            .stockPriceIndex(stockPriceIndex)
+                            .historyDate(historyDate)
+                            .build();
+                })
                 .collect(Collectors.toUnmodifiableList());
 
         return StockPrice.builder()
                 .dailyIndices(dailyIndices)
                 .securityCode(meta.getSecurityCode())
-                .build();
-    }
-
-    private DailyIndex buildDailyIndex(final int index) {
-        final var historyDate = HistoryDate.from(timestamps.get(index));
-        final var stockPriceIndex = indicators.toStockPriceIndex(index);
-
-        return DailyIndex.builder()
-                .stockPriceIndex(stockPriceIndex)
-                .historyDate(historyDate)
                 .build();
     }
 }

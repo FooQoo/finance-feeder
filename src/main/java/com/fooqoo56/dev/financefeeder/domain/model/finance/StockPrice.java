@@ -14,6 +14,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.lang.NonNull;
 
 /**
@@ -34,9 +36,21 @@ public class StockPrice implements Serializable {
     @NonNull
     private final Map<HistoryDate, StockPriceIndex> dailyIndexMap;
 
+    public static StockPrice emptyIndex(final SecurityCode securityCode) {
+        return new StockPrice(securityCode, Map.of());
+    }
+
+    public boolean empty() {
+        return MapUtils.isEmpty(dailyIndexMap);
+    }
+
     @Builder(builderClassName = "Factory")
     public static StockPrice of(final SecurityCode securityCode,
                                 final List<DailyIndex> dailyIndices) {
+
+        if (CollectionUtils.isEmpty(dailyIndices)) {
+            return emptyIndex(securityCode);
+        }
 
         // 日付で集約する
         final var dailyIndicesMap = dailyIndices.stream()
@@ -57,7 +71,7 @@ public class StockPrice implements Serializable {
     /**
      * 日付ごとの指標データをリストにして返却する
      *
-     * @return DailyIndexのリストs
+     * @return DailyIndexのリスト
      */
     @NonNull
     public List<DailyIndex> toDailyIndex() {

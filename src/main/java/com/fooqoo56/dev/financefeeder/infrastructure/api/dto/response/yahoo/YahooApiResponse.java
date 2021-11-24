@@ -3,6 +3,7 @@ package com.fooqoo56.dev.financefeeder.infrastructure.api.dto.response.yahoo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fooqoo56.dev.financefeeder.domain.model.finance.StockPrice;
 import java.io.Serializable;
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -24,7 +25,7 @@ public class YahooApiResponse implements Serializable {
     @NonNull
     private final Chart chart;
 
-    public final StockPrice toStockPrice() {
+    public Optional<StockPrice> toStockPrice() {
         return chart.toStockPrice();
     }
 }
