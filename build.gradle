@@ -6,12 +6,12 @@ buildscript {
     }
     dependencies {
         // Spring Boot Gradle Plugin を使用
-        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.6.0'
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.6.1'
     }
 }
 
 plugins {
-    id 'org.springframework.boot' version '2.6.0'
+    id 'org.springframework.boot' version '2.6.1'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
     id 'groovy'
