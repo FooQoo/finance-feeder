@@ -3,9 +3,7 @@ package com.fooqoo56.dev.financefeeder.infrastructure.api.dto.request;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -68,7 +66,6 @@ public class UriParamBuilder {
      */
     public UriParamBuilder addPathParam(final Object value) {
         final var uriPathParam = UriPathParam.builder()
-                // paramsのサイズをテンプレートとして持つ
                 .value(value)
                 .build();
 
@@ -83,32 +80,19 @@ public class UriParamBuilder {
     }
 
     /**
-     * URIを取得する
+     * URIを取得する、値の編集は実施しない
      *
      * @param uriBuilder uriBuilder
      * @return URI
      */
     public URI build(final UriBuilder uriBuilder) {
 
-        final Map<String, Object> uriVariables = new HashMap<>();
-
         // パスパラメータを設定する
-        pathParams.forEach(uriPathParam -> {
-            // テンプレートはvalueの値
-            final var template = uriPathParam.getValue().toString();
-            uriBuilder.path("/{" + template + "}");
-            uriVariables.put(template, uriPathParam.getValue());
-        });
-
+        pathParams.forEach(uriPathParam -> uriPathParam.addPath(uriBuilder));
         // クエリパラメータを設定する
-        queryParams.forEach(uriQueryParam -> {
-            // テンプレートはvalueの値
-            final var template = uriQueryParam.getValue().toString();
-            uriBuilder.queryParam(uriQueryParam.getKey(), "{" + template + "}");
-            uriVariables.put(template, uriQueryParam.getValue());
-        });
+        queryParams.forEach(uriQueryParam -> uriQueryParam.addQueryParam(uriBuilder));
 
-        return uriBuilder.build(uriVariables);
+        return uriBuilder.build();
     }
 
     /**
@@ -121,6 +105,15 @@ public class UriParamBuilder {
 
         @NonNull
         private final Object value;
+
+        /**
+         * パス情報を追加する
+         *
+         * @param uriBuilder パス情報を追加するuriBuilder
+         */
+        private void addPath(final UriBuilder uriBuilder) {
+            uriBuilder.path(String.format("/%s", value));
+        }
     }
 
     /**
@@ -136,5 +129,14 @@ public class UriParamBuilder {
 
         @NonNull
         private final Object value;
+
+        /**
+         * クエリパラメータ情報を追加する
+         *
+         * @param uriBuilder クエリパラメータ情報を追加するuriBuilder
+         */
+        private void addQueryParam(final UriBuilder uriBuilder) {
+            uriBuilder.queryParam(key, value);
+        }
     }
 }

@@ -5,33 +5,37 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fooqoo56.dev.financefeeder.domain.model.finance.StockPrice;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.lang.NonNull;
 
 @RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EqualsAndHashCode
-@Getter
 @ToString
 class Chart implements Serializable {
 
     private static final long serialVersionUID = 149510784494652354L;
 
     @JsonProperty("result")
-    @NonNull
     private final List<Result> results;
 
-    Optional<StockPrice> toStockPrice() {
+    /**
+     * resultsを返却する
+     *
+     * @return results、nullの場合は空のリストを返す
+     */
+    @NonNull
+    List<StockPrice> toStockPrice() {
         // resultsの先頭を取得する
-        return results.stream()
+        return CollectionUtils.emptyIfNull(results).stream()
                 .map(Result::toStockPrice)
-                .findFirst();
+                .collect(Collectors.toUnmodifiableList());
     }
 }

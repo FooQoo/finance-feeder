@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import javax.validation.ValidationException;
+import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ import org.springframework.lang.NonNull;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Slf4j
 @ToString
+@NotNull
 class PubSubMessage implements Serializable {
 
     private static final long serialVersionUID = -8974036523793712602L;
@@ -36,21 +38,21 @@ class PubSubMessage implements Serializable {
      * pub/subのペイロード.
      */
     @JsonProperty
-    @NonNull
+    @NotNull
     private final String data;
 
     /**
      * メッセージID.
      */
-    @NonNull
     @JsonProperty
+    @NotNull
     private final String messageId;
 
     /**
      * publishされた時刻.
      */
-    @NonNull
     @JsonProperty
+    @NotNull
     private final String publishTime;
 
     /**

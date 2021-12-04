@@ -6,12 +6,12 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.lang.NonNull;
 
 @RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
@@ -22,7 +22,7 @@ class AdjClose implements Serializable {
     private static final long serialVersionUID = -4603933170114494528L;
 
     @JsonProperty("adjclose")
-    @NonNull
+    @NotNull
     private final List<BigDecimal> adjCloses;
 
     int length() {

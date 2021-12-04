@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -16,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.lang.NonNull;
 
 @RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
@@ -35,14 +35,14 @@ class Indicators implements Serializable {
      * 先頭インデックスのみ利用
      */
     @JsonProperty("quote")
-    @NonNull
+    @NotNull
     private final List<Quote> quotes;
 
     /**
      * 先頭インデックスのみ利用
      */
     @JsonProperty("adjclose")
-    @NonNull
+    @NotNull
     private final List<AdjClose> adjCloses;
 
     /**
@@ -87,7 +87,7 @@ class Indicators implements Serializable {
                             adjCloseValue.isPresent() && volume.isPresent())) {
                         return Optional.empty();
                     }
-                    return Optional.of(StockPriceIndex.builderOf()
+                    return Optional.of(StockPriceIndex.builder()
                             .high(high.get())
                             .low(low.get())
                             .open(open.get())

@@ -3,11 +3,11 @@ package com.fooqoo56.dev.financefeeder.presentation.dto.form;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fooqoo56.dev.financefeeder.domain.model.finance.SecurityCode;
+import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import org.springframework.lang.NonNull;
 
 /**
  * PubSubから受信するメッセージ
@@ -21,7 +21,7 @@ public class PubSubBody {
     /**
      * message
      */
-    @NonNull
+    @NotNull
     @JsonProperty
     private final PubSubMessage message;
 

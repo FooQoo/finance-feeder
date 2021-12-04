@@ -3,6 +3,7 @@ package com.fooqoo56.dev.financefeeder.presentation.controller;
 import com.fooqoo56.dev.financefeeder.application.scenario.FeedStockPriceScenario;
 import com.fooqoo56.dev.financefeeder.presentation.dto.form.PubSubBody;
 import com.fooqoo56.dev.financefeeder.presentation.dto.response.PubSubResponse;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,7 @@ public class PubSubController {
     private final FeedStockPriceScenario feedStockPriceScenario;
 
     @PostMapping(value = "/feedStock")
-    public Mono<PubSubResponse> receiveMessage(@RequestBody final PubSubBody body) {
+    public Mono<PubSubResponse> receiveMessage(@Valid @RequestBody final PubSubBody body) {
 
         log.info("更新開始:" + body.toStringMessage());
 

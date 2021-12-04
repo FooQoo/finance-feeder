@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
+import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -14,7 +15,6 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.lang.NonNull;
 
 @RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
@@ -27,23 +27,23 @@ class Quote implements Serializable {
     private static final long serialVersionUID = 7665077379662869079L;
 
     @JsonProperty("high")
-    @NonNull
+    @NotNull
     private final List<BigDecimal> highs;
 
     @JsonProperty("volume")
-    @NonNull
+    @NotNull
     private final List<Integer> volumes;
 
     @JsonProperty("open")
-    @NonNull
+    @NotNull
     private final List<BigDecimal> opens;
 
     @JsonProperty("low")
-    @NonNull
+    @NotNull
     private final List<BigDecimal> lows;
 
     @JsonProperty("close")
-    @NonNull
+    @NotNull
     private final List<BigDecimal> closes;
 
     int length() {
