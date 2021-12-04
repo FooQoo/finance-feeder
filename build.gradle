@@ -58,7 +58,7 @@ dependencies {
             // validation
             'org.springframework.boot:spring-boot-starter-validation',
             // google cloud function for spring boot
-            'org.springframework.cloud:spring-cloud-function-adapter-gcp:3.1.5',
+            'org.springframework.cloud:spring-cloud-function-adapter-gcp:3.2.1',
             // google cloud function for test
             'com.google.cloud.functions:functions-framework-api:1.0.4'
     )
