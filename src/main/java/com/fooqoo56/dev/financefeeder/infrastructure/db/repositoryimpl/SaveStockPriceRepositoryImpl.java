@@ -26,6 +26,7 @@ public class SaveStockPriceRepositoryImpl implements SaveStockPriceRepository {
                         StockPriceIndicesDto.from(stockPrice),
                         StockPriceDto.from(stockPrice.getSecurityCode()))
                 .map(StockPriceIndicesDto::from)
-                .map(StockPriceIndicesDto::toFeedResult);
+                .map(stockPriceIndicesDto -> FeedResult.of(stockPrice.getSecurityCode(),
+                        stockPriceIndicesDto.size()));
     }
 }

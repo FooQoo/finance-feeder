@@ -1,8 +1,8 @@
 package com.fooqoo56.dev.financefeeder.presentation.advice;
 
 import com.fooqoo56.dev.financefeeder.presentation.controller.PubSubController;
-import com.fooqoo56.dev.financefeeder.presentation.dto.response.ErrorResponsePattern;
-import com.fooqoo56.dev.financefeeder.presentation.dto.response.PubSubErrorResponse;
+import com.fooqoo56.dev.financefeeder.presentation.dto.response.error.ErrorResponsePattern;
+import com.fooqoo56.dev.financefeeder.presentation.dto.response.error.PubSubErrorResponse;
 import javax.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

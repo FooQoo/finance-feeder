@@ -4,6 +4,7 @@ import com.fooqoo56.dev.financefeeder.application.service.FetchStockPriceService
 import com.fooqoo56.dev.financefeeder.application.service.SaveStockPriceService;
 import com.fooqoo56.dev.financefeeder.domain.model.feed.FeedResult;
 import com.fooqoo56.dev.financefeeder.domain.model.finance.SecurityCode;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
@@ -24,15 +25,15 @@ public class FeedStockPriceScenario {
      *
      * @param securityCode 証券コード
      */
-    public Mono<FeedResult> feedStockPrice(final SecurityCode securityCode) {
+    public Mono<List<FeedResult>> feedStockPrice(final SecurityCode securityCode) {
         // 1. 株価の取得
-        final var stockPriceMono = fetchStockPrice.fetchStockPrice(securityCode);
+        final var stockPriceFlux = fetchStockPrice.fetchStockPrice(securityCode);
 
         // 2. 株価の保存
-        final var feedResultMono = stockPriceMono
+        final var feedResultFlux = stockPriceFlux
                 .flatMap(saveStockPrice::saveStockPrice);
 
-        // 4. 株価結果のログ出力
-        return feedResultMono.doOnSuccess(FeedResult::logFeedResult);
+        // 3. 保存結果のリスト化
+        return feedResultFlux.collectList();
     }
 }

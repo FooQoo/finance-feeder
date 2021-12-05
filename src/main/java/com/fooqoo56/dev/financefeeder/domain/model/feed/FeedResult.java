@@ -1,5 +1,6 @@
 package com.fooqoo56.dev.financefeeder.domain.model.feed;
 
+import com.fooqoo56.dev.financefeeder.domain.model.finance.SecurityCode;
 import com.fooqoo56.dev.financefeeder.domain.model.type.premitive.UnsignedInteger;
 import java.io.Serializable;
 import lombok.AccessLevel;
@@ -17,7 +18,23 @@ public class FeedResult implements Serializable {
     private static final long serialVersionUID = -6832021008523481085L;
 
     @NonNull
+    private final SecurityCode securityCode;
+
+    @NonNull
     private final UnsignedInteger numSavedCode;
+
+    /**
+     * 証券コードを取得する
+     *
+     * @return 証券コード
+     */
+    public String getCode() {
+        return securityCode.getCode();
+    }
+
+    public Integer getNumSaved() {
+        return numSavedCode.toInt();
+    }
 
     /**
      * ファクトリメソッド.
@@ -25,8 +42,18 @@ public class FeedResult implements Serializable {
      * @param count 件数
      * @return FeedResultインスタンス
      */
-    public static FeedResult from(final Integer count) {
-        return new FeedResult(UnsignedInteger.from(count));
+    public static FeedResult of(final SecurityCode securityCode, final Integer count) {
+        return new FeedResult(securityCode, UnsignedInteger.from(count));
+    }
+
+    /**
+     * 空要素
+     *
+     * @param securityCode 証券コード
+     * @return オブジェクト
+     */
+    public static FeedResult empty(final SecurityCode securityCode) {
+        return FeedResult.of(securityCode, 0);
     }
 
     /**
@@ -34,10 +61,5 @@ public class FeedResult implements Serializable {
      */
     public void logFeedResult() {
         log.info("保存された件数:" + numSavedCode.toInt());
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(numSavedCode.toInt());
     }
 }

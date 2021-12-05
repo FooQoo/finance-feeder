@@ -26,10 +26,12 @@ public class SaveStockPriceService {
 
         // 株価指標が空の場合、フィード結果を0にして返す
         if (stockPrice.empty()) {
-            return Mono.just(FeedResult.from(0));
+            return Mono.just(FeedResult.empty(stockPrice.getSecurityCode()));
         }
 
         // 株価指標が存在する場合、保存する
-        return saveStockPriceRepository.saveStockPrice(stockPrice);
+        return saveStockPriceRepository
+                .saveStockPrice(stockPrice)
+                .doOnSuccess(FeedResult::logFeedResult);
     }
 }

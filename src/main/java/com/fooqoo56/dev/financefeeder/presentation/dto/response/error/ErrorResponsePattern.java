@@ -1,4 +1,4 @@
-package com.fooqoo56.dev.financefeeder.presentation.dto.response;
+package com.fooqoo56.dev.financefeeder.presentation.dto.response.error;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

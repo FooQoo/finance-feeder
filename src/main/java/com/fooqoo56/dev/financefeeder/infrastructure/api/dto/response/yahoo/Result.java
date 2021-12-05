@@ -8,22 +8,22 @@ import com.fooqoo56.dev.financefeeder.domain.model.type.HistoryDate;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
 
 @RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Getter
 @ToString
 @EqualsAndHashCode
 @Slf4j
@@ -31,13 +31,13 @@ class Result implements Serializable {
 
     private static final long serialVersionUID = 1841671527691933050L;
 
-    @JsonProperty("meta")
+    @JsonProperty
     private final Meta meta;
 
-    @JsonProperty("timestamp")
+    @JsonProperty
     private final List<Integer> timestamps;
 
-    @JsonProperty("indicators")
+    @JsonProperty
     private final Indicators indicators;
 
     /**
@@ -65,20 +65,27 @@ class Result implements Serializable {
             return StockPrice.emptyIndex(securityCode.get());
         }
 
-        final var dailyIndices = IntStream
-                .range(0, sizeOfTimestamp)
-                .mapToObj(index -> {
+        final var timestampList =
+                ((ArrayList<Integer>) CollectionUtils.emptyIfNull(timestamps));
 
-                    final var historyDate = HistoryDate.from(
-                            ((ArrayList<Integer>) CollectionUtils.emptyIfNull(timestamps)).get(
-                                    index));
+        final var dailyIndices = IntStream.range(0, sizeOfTimestamp)
+                .mapToObj(index -> {
+                    final var historyDate = Optional.ofNullable(timestampList.get(index))
+                            .map(HistoryDate::from)
+                            .orElse(null);
+
                     final var stockPriceIndex = stockPriceIndexList.get(index);
+
+                    if (ObjectUtils.anyNull(historyDate, stockPriceIndex)) {
+                        return null;
+                    }
 
                     return DailyIndex.builder()
                             .stockPriceIndex(stockPriceIndex)
                             .historyDate(historyDate)
                             .build();
                 })
+                .filter(Objects::nonNull)
                 .collect(Collectors.toUnmodifiableList());
 
         return StockPrice.builder()

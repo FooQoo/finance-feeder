@@ -31,7 +31,7 @@ public class PubSubController {
 
         // レスポンスに変換して返す
         return feedResultMono
-                .map(feedResult -> PubSubResponse.from("numOfUpdated:" + feedResult))
+                .map(PubSubResponse::from)
                 .doOnSuccess(response -> log.info("更新終了:" + response));
     }
 }
