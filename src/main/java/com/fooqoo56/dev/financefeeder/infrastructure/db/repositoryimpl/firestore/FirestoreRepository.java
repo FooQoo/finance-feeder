@@ -18,6 +18,8 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class FirestoreRepository {
 
+    private static final int RETRY = 3;
+
     private final FirestoreTemplate firestoreTemplate;
 
     /**
@@ -35,6 +37,7 @@ public class FirestoreRepository {
 
         return stockPriceTemplate
                 .saveAll(stockPriceIndicesDto.asFlux())
+                .retry(RETRY)
                 .onErrorResume(exception -> Mono.error(
                         new FailedSaveStockPriceException("記事の保存に失敗しました:", exception)))
                 .collectList();

@@ -9,7 +9,7 @@ import com.fooqoo56.dev.financefeeder.infrastructure.api.dto.response.yahoo.Yaho
 import com.fooqoo56.dev.financefeeder.infrastructure.api.repositoryimpl.yahoo.YahooFinanceApiRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 
 @RequiredArgsConstructor
 @Repository
@@ -21,14 +21,13 @@ public class FetchStockPriceRepositoryImpl implements FetchStockPriceRepository 
      * {@inheritDoc}
      */
     @Override
-    public Mono<StockPrice> fetchStockPrice(
+    public Flux<StockPrice> fetchStockPrice(
             final SecurityCode securityCode,
             final FeedPeriod feedPeriod) {
 
         return yahooFinanceApiRepository.getChart(
                         YahooApiRequestParam.of(securityCode, feedPeriod))
                 .map(YahooApiResponse::toStockPrice)
-                // stockPriceがOptional.emptyの場合、株価指標を空にしてインスタンス生成する
-                .map(stockPrice -> stockPrice.orElse(StockPrice.emptyIndex(securityCode)));
+                .flatMapMany(Flux::fromIterable);
     }
 }

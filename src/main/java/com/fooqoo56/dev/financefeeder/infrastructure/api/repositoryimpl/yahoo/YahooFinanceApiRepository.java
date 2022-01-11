@@ -30,6 +30,7 @@ public class YahooFinanceApiRepository {
                 .uri(yahooApiRequestParam::getURI)
                 .retrieve()
                 .bodyToMono(YahooApiResponse.class)
+                .log()
                 .onErrorResume(exception -> {
                     if (exception instanceof ReadTimeoutException) {
                         return Mono.error(

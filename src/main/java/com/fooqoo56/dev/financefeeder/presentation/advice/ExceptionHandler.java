@@ -2,7 +2,7 @@ package com.fooqoo56.dev.financefeeder.presentation.advice;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fooqoo56.dev.financefeeder.presentation.dto.response.ErrorResponsePattern;
+import com.fooqoo56.dev.financefeeder.presentation.dto.response.error.ErrorResponsePattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;

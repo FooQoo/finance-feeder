@@ -6,7 +6,7 @@ import com.fooqoo56.dev.financefeeder.domain.model.finance.StockPrice;
 import com.fooqoo56.dev.financefeeder.domain.repository.FetchStockPriceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 
 /**
  * 株価を取得するサービスクラス.
@@ -25,7 +25,7 @@ public class FetchStockPriceService {
      * @param securityCode 証券コード
      * @return 株価(Mono)
      */
-    public Mono<StockPrice> fetchStockPrice(final SecurityCode securityCode) {
+    public Flux<StockPrice> fetchStockPrice(final SecurityCode securityCode) {
         final var feedPeriod = feederSetting.toFeedPeriod();
 
         return fetchStockPriceRepository.fetchStockPrice(securityCode, feedPeriod);

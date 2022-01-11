@@ -14,7 +14,7 @@ import org.springframework.lang.NonNull;
  * 日付ごとの株価指標.
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder(access = AccessLevel.PRIVATE)
+@Builder(access = AccessLevel.PRIVATE, builderMethodName = "builderPrivate")
 @EqualsAndHashCode
 public class StockPriceIndex implements Serializable {
 
@@ -67,13 +67,13 @@ public class StockPriceIndex implements Serializable {
      * @param volume   出来高
      * @return StockPriceIndexのインスタンス
      */
-    @Builder(builderMethodName = "builderOf", builderClassName = "build")
+    @Builder(builderClassName = "Factory")
     public static StockPriceIndex of(final BigDecimal high,
                                      final BigDecimal low, final BigDecimal open,
                                      final BigDecimal close, final BigDecimal adjClose,
                                      final Integer volume) {
 
-        return StockPriceIndex.builder()
+        return StockPriceIndex.builderPrivate()
                 .high(UnsignedBigDecimal.from(high))
                 .low(UnsignedBigDecimal.from(low))
                 .open(UnsignedBigDecimal.from(open))

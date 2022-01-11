@@ -75,4 +75,33 @@ class YahooFinanceApiRepositorySpec extends Specification {
         new SecurityCode("7647") | new FeedPeriod(new Day(7, "1d"), new Day(1, "1d")) || "200.json"
     }
 
+    @Unroll
+    final "YahooApiで不正なレスポンスが返却された場合、#exceptionがthrowされる"() {
+        given:
+        // テスト対象クラスのインスタンス作成
+        final sut = new YahooFinanceApiRepository(webClient)
+
+        // mockサーバを作成する
+        final mockResponse = new FileReader("src/test/resources/json/YahooApi/" + responseJson).text
+        mockWebServer.enqueue(
+                new MockResponse()
+                        .setResponseCode(HttpStatus.OK.value())
+                        .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+                        .setBody(mockResponse))
+
+        final yahooApiRequestParam = YahooApiRequestParam.of(new SecurityCode("7647"), new FeedPeriod(new Day(7, "1d"), new Day(1, "1d")))
+
+        when:
+        sut.getChart(yahooApiRequestParam).block()
+
+        then:
+        final actual = thrown(exception)
+        actual.getMessage() == message
+
+
+        where:
+        responseJson                || exception        | message
+        "200_illegal_response.json" || RuntimeException | "hoge"
+    }
+
 }
