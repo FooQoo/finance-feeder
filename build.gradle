@@ -78,7 +78,7 @@ dependencies {
             // spock
             'org.spockframework:spock-core:2.0-groovy-3.0',
             // spock for spring boot
-            'org.spockframework:spock-spring:2.0-groovy-3.0',
+            'org.spockframework:spock-spring:2.1-groovy-3.0',
             // library for spock
             'cglib:cglib-nodep:3.3.0',
             // mock for webflux
