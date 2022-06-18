@@ -82,7 +82,7 @@ dependencies {
             // library for spock
             'cglib:cglib-nodep:3.3.0',
             // mock for webflux
-            'com.squareup.okhttp3:mockwebserver:4.9.3'
+            'com.squareup.okhttp3:mockwebserver:4.10.0'
     )
 
     spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.11.0'
