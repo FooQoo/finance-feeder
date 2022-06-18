@@ -17,7 +17,7 @@ plugins {
     id 'groovy'
     id 'com.github.spotbugs' version '5.0.4'
     id 'jacoco'
-    id "com.google.cloud.tools.jib" version "3.1.4"
+    id "com.google.cloud.tools.jib" version "3.2.1"
 }
 
 jib.container.creationTime = 'USE_CURRENT_TIMESTAMP'
