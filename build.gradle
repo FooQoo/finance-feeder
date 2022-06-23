@@ -60,7 +60,7 @@ dependencies {
     )
 
     compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'org.glassfish.jaxb:jaxb-runtime:3.0.2'
+    runtimeOnly 'org.glassfish.jaxb:jaxb-runtime:4.0.0'
 
     annotationProcessor(
             'org.projectlombok:lombok',
